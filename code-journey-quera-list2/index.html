@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>کوئرا لیست</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
     <link rel="stylesheet" href="src/style.css" />
     <style type="text/tailwindcss">
       @theme {
@@ -134,7 +135,6 @@
     </header>
 
     <!-- sidbar -->
-
     <nav class="hidden md:block">
       <div class="flex flex-row gap-4 my-6">
         <img
@@ -145,10 +145,58 @@
         <div>
           <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
           <!-- نمایش تاریخ روز جاری -->
-          <p class="text-gray-600 text-[15px]">امروز</p>
+          <div
+            id="sidebar-date"
+            class="font-yekanbakh font-semibold text-sm text-[#7D7D7F]"
+          ></div>
         </div>
       </div>
     </nav>
+    <script>
+      const PersianMonth = [
+        "فروردین",
+        "اردیبهشت",
+        "خرداد",
+        "تیر",
+        "مرداد",
+        "شهریور",
+        "مهر",
+        "آبان",
+        "آذر",
+        "دی",
+        "بهمن",
+        "اسفند",
+      ];
+
+      const Persiandays = [
+        "یکشنبه",
+        "دوشنبه",
+        "سه‌شنبه",
+        "چهارشنبه",
+        "پنجشنبه",
+        "جمعه",
+        "شنبه",
+      ];
+
+      const getPersianDate = (date) => {
+        let newDate = moment(date);
+        let year = newDate.jYear();
+        let month = PersianMonth[newDate.jMonth()];
+        let dayN = newDate.jDate();
+        let day = Persiandays[newDate.day()];
+
+        return `${day}، ${dayN} ${month} ${year}`;
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const persianDate = getPersianDate(new Date());
+        const dateElement = document.getElementById("sidebar-date");
+
+        if (dateElement) {
+          dateElement.innerHTML = persianDate;
+        }
+      });
+    </script>
 
     <section class="container mx-auto">
       <!-- header mobile -->
@@ -250,6 +298,7 @@
         src="./src/assets/images/Frame 1000005526.png"
         class="justify-center mx-auto"
       />
+
       <!-- feature/edit-and-delete-task-->
       <div
         id="tasks-container"
@@ -258,6 +307,7 @@
       <!--line-through-->
       <h3 class="mt-6 font-bold py-3">تسک‌های انجام‌شده</h3>
       <div id="done-tasks"></div>
+
     </section>
 
     
