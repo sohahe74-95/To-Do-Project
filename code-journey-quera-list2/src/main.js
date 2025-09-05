@@ -1,7 +1,8 @@
+const taskimgback = document.getElementById("task-back-img");
+
 document.addEventListener("DOMContentLoaded", () => {
   const addTaskBtn = document.querySelector(".add-task-button");
   const taskform = document.getElementById("task-form");
-  const taskimgback = document.getElementById("task-back-img");
   addTaskBtn.addEventListener("click", () => {
     taskform.classList.toggle("hidden");
   });
@@ -13,20 +14,32 @@ const addTaskBtn = document.getElementById("add-task-btn");
 const tasksContainer = document.getElementById("tasks-container");
 const priorityButtons = document.querySelectorAll(".priority-option");
 const noTasksMsg = document.getElementById("no-tasks-msg");
+const tagbutton = document.getElementById("tag-button");
+const prioritybuttonframe = document.getElementById("priority-button-frame");
+
+//click on tags and show priorities
+tagbutton.addEventListener("click", () => {
+  prioritybuttonframe.classList.toggle("hidden");
+});
 
 let selectedPriority = "";
 
 // choose priority
 priorityButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    priorityButtons.forEach((b) =>
-      b.classList.remove("ring-2", "ring-blue-500")
-    );
-    btn.classList.add("ring-2", "ring-blue-500");
-    selectedPriority = btn.textContent;
-    if (taskimgback) {
-      taskimgback.style.display = "none";
-    }
+    selectedPriority = btn.textContent.trim();
+
+    priorityButtons.forEach((b) => {
+      b.classList.remove("hidden");
+      b.style.removeProperty("display");
+    });
+
+    // just choosed button
+    priorityButtons.forEach((b) => {
+      if (b !== btn) b.classList.add("hidden");
+    });
+
+    tagbutton.classList.add("hidden");
   });
 });
 
@@ -42,20 +55,33 @@ function renderTasks() {
   tasksContainer.innerHTML = "";
   if (tasks.length === 0) {
     noTasksMsg.style.display = "block";
+    if (taskimgback) {
+      taskimgback.style.display = "block";
+    }
   } else {
     noTasksMsg.style.display = "none";
+    if (taskimgback) {
+      taskimgback.style.display = "none";
+    }
   }
 
   tasks.forEach((task, index) => {
+    let borderColorClass = "";
+    if (task.priority.trim() === "پایین") {
+      borderColorClass = "border-r-[#11A483]";
+    } else if (task.priority.trim() === "متوسط") {
+      borderColorClass = "border-r-[#FFAF37]";
+    } else if (task.priority.trim() === "بالا") {
+      borderColorClass = "border-r-[#FF5F37]";
+    }
     const taskFrame = document.createElement("div");
-    taskFrame.className =
-      "border border-gray-300 rounded-lg p-4 shadow flex flex-col gap-2 relative";
+    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative`;
 
     // menu threepoints on the left
     const menucontainer = document.createElement("div");
     menucontainer.className = "absolute top-2 left-2 p-1";
     const menubtn = document.createElement("button");
-    menubtn.className = "task-menu-btns mt-1"; //
+    menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
     const menuFrame = document.createElement("div");
     menuFrame.className =
@@ -75,7 +101,7 @@ function renderTasks() {
     menucontainer.appendChild(menuFrame);
     taskFrame.appendChild(menucontainer);
 
-    // first linr : checkbox + priority + name
+    // first line : checkbox + priority + name
     const line1 = document.createElement("div");
     line1.className = "flex items-center gap-2";
 
@@ -96,11 +122,19 @@ function renderTasks() {
     prioritySpan.textContent = task.priority;
     prioritySpan.className =
       "ml-auto px-2 py-1 rounded text-white " +
-      (task.priority === "پایین"
+      (task.priority.trim() === "پایین"
         ? "bg-[#C3FFF1] text-[#11A483]"
-        : task.priority === "متوسط"
+        : task.priority.trim() === "متوسط"
         ? "bg-[#FFEFD6] text-[#FFAF37]"
         : "bg-[#FFE2DB] text-[#FF5F37]");
+
+    const priorityOrder = ["بالا", "متوسط", "پایین"];
+    tasks.sort((a, b) => {
+      return (
+        priorityOrder.indexOf(a.priority.trim()) -
+        priorityOrder.indexOf(b.priority.trim())
+      );
+    });
 
     line1.appendChild(checkbox);
     line1.appendChild(nameSpan);
@@ -143,7 +177,15 @@ addTaskBtn.addEventListener("click", () => {
   taskNameInput.value = "";
   taskDescInput.value = "";
   selectedPriority = "";
-  priorityButtons.forEach((b) => b.classList.remove("ring-2", "ring-blue-500"));
+
+  priorityButtons.forEach((b) => {
+    b.classList.remove("ring-2", "ring-blue-500", "hidden");
+
+    b.style.removeProperty("display");
+  });
+
+  prioritybuttonframe.classList.add("hidden");
+  tagbutton.classList.remove("hidden");
 });
 
 // initial render

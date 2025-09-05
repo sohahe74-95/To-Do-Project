@@ -197,12 +197,14 @@
           <a
             href="#"
             class="flex flex-row gap-2 border border-[#E9E9E9] rounded-[4px] p-2 w-fit"
+            id="tag-button"
           >
             <img src="./src/assets/icons/tag-down.svg" />
             تگ ها
           </a>
           <div
-            class="flex flex-row gap-8 items-center justify-start border border-[#e9e9e9] rounded-[16px] w-fit"
+            class="flex flex-row gap-8 items-center justify-start border border-[#e9e9e9] rounded-[16px] w-fit hidden"
+            id="priority-button-frame"
           >
             <p
               class="priority-option px-3 py-2 m-4 bg-[#C3FFF1] text-[#11A483] rounded-[4px]"
@@ -247,7 +249,10 @@
         src="./src/assets/images/Frame 1000005526.png"
         class="justify-center mx-auto"
       />
-      <div id="tasks-container" class="flex flex-col gap-4 mt-6"></div>
+      <div
+        id="tasks-container"
+        class="flex flex-col gap-2 mt-6 mx-auto px-4 max-w-5xl"
+      ></div>
     </section>
     <script src="src/main.js"></script>
   </body>
