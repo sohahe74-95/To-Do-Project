@@ -76,7 +76,7 @@ function renderTasks() {
       borderColorClass = "border-r-[#FF5F37]";
     }
     const taskFrame = document.createElement("div");
-    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative`;
+    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative mt-3`;
 
     // menu threepoints on the left
     const menucontainer = document.createElement("div");
