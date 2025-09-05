@@ -125,8 +125,8 @@ function renderTasks() {
       (task.priority.trim() === "پایین"
         ? "bg-[#C3FFF1] text-[#11A483]"
         : task.priority.trim() === "متوسط"
-          ? "bg-[#FFEFD6] text-[#FFAF37]"
-          : "bg-[#FFE2DB] text-[#FF5F37]");
+        ? "bg-[#FFEFD6] text-[#FFAF37]"
+        : "bg-[#FFE2DB] text-[#FF5F37]");
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
