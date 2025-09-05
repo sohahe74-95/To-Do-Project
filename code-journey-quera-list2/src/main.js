@@ -14,9 +14,11 @@ const addTaskBtn = document.getElementById("add-task-btn");
 const tasksContainer = document.getElementById("tasks-container");
 const priorityButtons = document.querySelectorAll(".priority-option");
 const noTasksMsg = document.getElementById("no-tasks-msg");
+// feature/edit-and-delete-task
 const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
-
+//zahra
+const doneTasksContainer = document.getElementById("done-tasks");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
@@ -53,6 +55,8 @@ function saveTasks() {
 // show tasks
 function renderTasks() {
   tasksContainer.innerHTML = "";
+  doneTasksContainer.innerHTML = "";
+<!-- feature/edit-and-delete-task-->
   if (tasks.length === 0) {
     noTasksMsg.style.display = "block";
     if (taskimgback) {
@@ -228,12 +232,28 @@ function renderTasks() {
     checkbox.addEventListener("change", () => {
       task.completed = checkbox.checked;
       saveTasks();
+      renderTasks();
     });
+    
+  tasks.forEach((task, index) => {
+    const card = document.createElement("div");
+    card.className =
+      "border border-gray-300 rounded-lg p-4 shadow flex flex-col gap-2 bg-white my-2";
 
+    // خط اول: چک‌باکس + عنوان + اولویت
+    const row = document.createElement("div");
+    row.className = "flex items-center gap-2";
+
+    const title = document.createElement("span");
+    title.textContent = task.name;
+    title.className = "font-semibold" + (task.completed ? " line-through text-gray-400" : "");
+
+<!-- feature/done-task-->
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
-    nameSpan.className = "font-semibold";
-
+    nameSpan.className =
+      "font-semibold" + (task.completed ? " line-through text-gray-400" : "");
+<!-- feature/edit-and-delete-task-->
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
     prioritySpan.className =
@@ -255,18 +275,45 @@ function renderTasks() {
     line1.appendChild(checkbox);
     line1.appendChild(nameSpan);
     line1.appendChild(prioritySpan);
+    taskFrame.appendChild(line1);
 
     // second line : explains
     const line2 = document.createElement("p");
     line2.textContent = task.desc;
     line2.className = "text-gray-700";
 
-    taskFrame.appendChild(line1);
-    taskFrame.appendChild(line2);
+    const pr = document.createElement("span");
+    pr.textContent = task.priority;
+    pr.className =
+      "ml-auto px-2 py-1 rounded text-xs " +
+      (task.priority === "پایین"
+        ? "bg-[#C3FFF1] text-[#11A483]"
+        : task.priority === "متوسط"
+          ? "bg-[#FFEFD6] text-[#FFAF37]"
+          : "bg-[#FFE2DB] text-[#FF5F37]");
 
-    tasksContainer.appendChild(taskFrame);
+    row.appendChild(checkbox);
+    row.appendChild(title);
+    row.appendChild(pr);
+    card.appendChild(row);
+
+    // توضیح (اختیاری)
+    if (task.desc) {
+      const desc = document.createElement("p");
+      desc.textContent = task.desc;
+      desc.className = "text-gray-700" + (task.completed ? " line-through text-gray-400 " : "");
+      card.appendChild(desc);
+    }
+
+    // اگر انجام‌شده بود بفرست پایین؛ وگرنه بالا
+    (task.completed ? doneTasksContainer : tasksContainer).appendChild(card);
+
   });
+
+  // پیام خالی/پُر (اختیاری)
+  noTasksMsg.style.display = tasks.some(t => !t.completed) ? "none" : "block";
 }
+
 
 // add new tasks
 addTaskBtn.addEventListener("click", () => {
