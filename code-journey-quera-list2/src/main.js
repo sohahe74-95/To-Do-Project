@@ -16,7 +16,7 @@ const priorityButtons = document.querySelectorAll(".priority-option");
 const noTasksMsg = document.getElementById("no-tasks-msg");
 const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
-
+const doneTasksContainer = document.getElementById("done-tasks");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
@@ -53,6 +53,7 @@ function saveTasks() {
 // show tasks
 function renderTasks() {
   tasksContainer.innerHTML = "";
+  doneTasksContainer.innerHTML = "";
   if (tasks.length === 0) {
     noTasksMsg.style.display = "block";
     if (taskimgback) {
@@ -112,11 +113,13 @@ function renderTasks() {
     checkbox.addEventListener("change", () => {
       task.completed = checkbox.checked;
       saveTasks();
+      renderTasks(); //  دوباره رندر بشه تا استایل آپدیت بشه
     });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
-    nameSpan.className = "font-semibold";
+    nameSpan.className =
+      "font-semibold" + (task.completed ? " line-through text-gray-400" : ""); //یرای تسک انجام شده
 
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
@@ -143,12 +146,13 @@ function renderTasks() {
     // second line : explains
     const line2 = document.createElement("p");
     line2.textContent = task.desc;
-    line2.className = "text-gray-700";
+    line2.className =
+      "text-gray-700" + (task.completed ? " line-through text-gray-400" : "");// done task
 
     taskFrame.appendChild(line1);
     taskFrame.appendChild(line2);
 
-    tasksContainer.appendChild(taskFrame);
+    (task.completed ? doneTasksContainer : tasksContainer).appendChild(taskFrame);
   });
 }
 
