@@ -17,6 +17,7 @@ const noTasksMsg = document.getElementById("no-tasks-msg");
 const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
 const doneTasksContainer = document.getElementById("done-tasks");
+const doneCount = document.getElementById("done-count");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
@@ -154,6 +155,13 @@ function renderTasks() {
 
     (task.completed ? doneTasksContainer : tasksContainer).appendChild(taskFrame);
   });
+  //count
+  const completedCount = tasks.filter(t => t.completed).length;
+  if (doneCount) {
+    doneCount.textContent = completedCount > 0
+      ? `${completedCount} تسک انجام شده`
+      : "فعلاً هیچ تسکی انجام نشده";
+  }
 }
 
 // add new tasks
