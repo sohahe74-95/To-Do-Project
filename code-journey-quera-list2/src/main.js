@@ -14,8 +14,6 @@ const addTaskBtn = document.getElementById("add-task-btn");
 const tasksContainer = document.getElementById("tasks-container");
 const priorityButtons = document.querySelectorAll(".priority-option");
 const noTasksMsg = document.getElementById("no-tasks-msg");
-//zahra
-const doneTasksContainer = document.getElementById("done-tasks");
 const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
 
@@ -55,9 +53,6 @@ function saveTasks() {
 // show tasks
 function renderTasks() {
   tasksContainer.innerHTML = "";
-  doneTasksContainer.innerHTML = "";
-
-  // کنترل نمایش عکس و پیام خالی
   if (tasks.length === 0) {
     noTasksMsg.style.display = "block";
     if (taskimgback) {
@@ -71,7 +66,6 @@ function renderTasks() {
   }
 
   tasks.forEach((task, index) => {
-    // رنگ مرز بر اساس priority
     let borderColorClass = "";
     if (task.priority.trim() === "پایین") {
       borderColorClass = "border-r-[#11A483]";
@@ -80,12 +74,10 @@ function renderTasks() {
     } else if (task.priority.trim() === "بالا") {
       borderColorClass = "border-r-[#FF5F37]";
     }
-
-    // کارت تسک
     const taskFrame = document.createElement("div");
-    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative my-2`;
+    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative`;
 
-    // منوی سه نقطه
+    // menu threepoints on the left
     const menucontainer = document.createElement("div");
     menucontainer.className = "absolute top-2 left-2 p-1";
     const menubtn = document.createElement("button");
@@ -95,13 +87,13 @@ function renderTasks() {
     menuFrame.className =
       "task-menu-frame absolute top-full left-0 mt-1 w-36 bg-white border border-gray-300 rounded shadow-md hidden flex justify-between items-center p-2 gap-2";
     menuFrame.innerHTML = `
-        <button class="edit-btn flex items-center justify-center p-1 hover:bg-gray-100 rounded">
-          <img src="./src/assets/images/Group.png" alt="edit" class="w-5 h-5"/>
-        </button>
-        <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 rounded">
-          <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-5 h-5"/>
-        </button>
-      `;
+      <button class="edit-btn flex items-center justify-center p-1 hover:bg-gray-100 rounded">
+        <img src="./src/assets/images/Group.png" alt="edit" class="w-5 h-5"/>
+      </button>
+      <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 rounded">
+        <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-5 h-5"/>
+      </button>
+    `;
     menubtn.addEventListener("click", () =>
       menuFrame.classList.toggle("hidden")
     );
@@ -109,60 +101,56 @@ function renderTasks() {
     menucontainer.appendChild(menuFrame);
     taskFrame.appendChild(menucontainer);
 
-    // خط اول: چک‌باکس + عنوان + اولویت
+    // first line : checkbox + priority + name
     const line1 = document.createElement("div");
     line1.className = "flex items-center gap-2";
 
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.className = "w-4 h-4 cursor-pointer";
-    cb.checked = task.completed;
-
-    cb.addEventListener("change", () => {
-      task.completed = cb.checked;
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = task.completed;
+    checkbox.className = "w-4 h-4";
+    checkbox.addEventListener("change", () => {
+      task.completed = checkbox.checked;
       saveTasks();
-      renderTasks();
     });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
-    nameSpan.className =
-      "font-semibold" + (task.completed ? " line-through text-gray-400" : "");
+    nameSpan.className = "font-semibold";
 
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
     prioritySpan.className =
-      "ml-auto px-2 py-1 rounded text-xs " +
-      (task.priority === "پایین"
+      "ml-auto px-2 py-1 rounded text-white " +
+      (task.priority.trim() === "پایین"
         ? "bg-[#C3FFF1] text-[#11A483]"
-        : task.priority === "متوسط"
+        : task.priority.trim() === "متوسط"
           ? "bg-[#FFEFD6] text-[#FFAF37]"
           : "bg-[#FFE2DB] text-[#FF5F37]");
 
-    line1.appendChild(cb);
+    const priorityOrder = ["بالا", "متوسط", "پایین"];
+    tasks.sort((a, b) => {
+      return (
+        priorityOrder.indexOf(a.priority.trim()) -
+        priorityOrder.indexOf(b.priority.trim())
+      );
+    });
+
+    line1.appendChild(checkbox);
     line1.appendChild(nameSpan);
     line1.appendChild(prioritySpan);
+
+    // second line : explains
+    const line2 = document.createElement("p");
+    line2.textContent = task.desc;
+    line2.className = "text-gray-700";
+
     taskFrame.appendChild(line1);
+    taskFrame.appendChild(line2);
 
-    // توضیحات
-    if (task.desc) {
-      const desc = document.createElement("p");
-      desc.textContent = task.desc;
-      desc.className =
-        "text-gray-700" + (task.completed ? " line-through text-gray-400" : "");
-      taskFrame.appendChild(desc);
-    }
-
-    // بر اساس وضعیت → به لیست مربوطه اضافه کن
-    (task.completed ? doneTasksContainer : tasksContainer).appendChild(taskFrame);
+    tasksContainer.appendChild(taskFrame);
   });
-  // پیام خالی/پُر (اختیاری)
-  noTasksMsg.style.display = tasks.some(t => !t.completed) ? "none" : "block";
 }
-
-
-
-
 
 // add new tasks
 addTaskBtn.addEventListener("click", () => {
