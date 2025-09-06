@@ -190,3 +190,104 @@ addTaskBtn.addEventListener("click", () => {
 
 // initial render
 renderTasks();
+
+//  <!-- Date formatting script -->
+// Persian month names
+const PersianMonth = [
+  "فروردین",
+  "اردیبهشت",
+  "خرداد",
+  "تیر",
+  "مرداد",
+  "شهریور",
+  "مهر",
+  "آبان",
+  "آذر",
+  "دی",
+  "بهمن",
+  "اسفند",
+];
+
+// Persian day names
+const Persiandays = [
+  "یکشنبه",
+  "دوشنبه",
+  "سه‌شنبه",
+  "چهارشنبه",
+  "پنجشنبه",
+  "جمعه",
+  "شنبه",
+];
+
+// Function to format date in Persian
+const getPersianDate = (date) => {
+  let newDate = moment(date);
+  let year = newDate.jYear();
+  let month = PersianMonth[newDate.jMonth()];
+  let dayN = newDate.jDate();
+  let day = Persiandays[newDate.day()];
+
+  return `${day}، ${dayN} ${month} ${year}`;
+};
+
+// Display Persian date when DOM is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  const persianDate = getPersianDate(new Date());
+  const dateElement = document.querySelector(".sidebar-date");
+
+  if (dateElement) {
+    dateElement.innerHTML = persianDate;
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // انتخاب عناصر با ID و کلاس صحیح
+  const hamburgerBtn = document.getElementById("hamburgerBtn");
+  const overlayMenu = document.querySelector(".overlay-menu");
+  const closeBtn = document.getElementById("closeBtn");
+  const body = document.body;
+
+  // باز کردن منو با کلیک روی دکمه همبرگر
+  hamburgerBtn.addEventListener("click", function () {
+    overlayMenu.classList.remove("hidden");
+    // کمی تاخیر برای اعمال انیمیشن
+    setTimeout(() => {
+      overlayMenu.classList.add("active");
+      body.classList.add("no-scroll");
+    }, 10);
+  });
+
+  // بستن منو با کلیک روی دکمه بستن
+  closeBtn.addEventListener("click", function () {
+    overlayMenu.classList.remove("active");
+    body.classList.remove("no-scroll");
+    // پس از اتمام انیمیشن، مخفی کردن کامل منو
+    setTimeout(() => {
+      overlayMenu.classList.add("hidden");
+    }, 300);
+  });
+
+  // بستن منو با کلیک خارج از محتوای منو
+  overlayMenu.addEventListener("click", function (e) {
+    if (e.target === overlayMenu) {
+      overlayMenu.classList.remove("active");
+      body.classList.remove("no-scroll");
+      // پس از اتمام انیمیشن، مخفی کردن کامل منو
+      setTimeout(() => {
+        overlayMenu.classList.add("hidden");
+      }, 300);
+    }
+  });
+
+  // بستن منو با کلید ESC
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && overlayMenu.classList.contains("active")) {
+      overlayMenu.classList.remove("active");
+      body.classList.remove("no-scroll");
+      // پس از اتمام انیمیشن، مخفی کردن کامل منو
+      setTimeout(() => {
+        overlayMenu.classList.add("hidden");
+      }, 300);
+    }
+  });
+});

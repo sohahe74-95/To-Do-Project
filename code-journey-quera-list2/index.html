@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>کوئرا لیست</title>
+    <!-- External resources -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
     <link rel="stylesheet" href="src/style.css" />
+
+    <!-- Custom theme colors -->
     <style type="text/tailwindcss">
       @theme {
         --color-primary-light: #2c7ef8;
@@ -27,114 +30,127 @@
     </style>
   </head>
   <body>
-    <!-- header -->
-
+    <!-- Header section for mobile-->
     <header
-      class="md:hidden w-full flex justify-between items-center gap-2 px-4 py-3 bg-[var(--color-background-light)] shadow-[0px_4px_18px_0px_#1848900F] mx-auto max-w-screen-xl h-[49px]"
+      class="md:hidden shadow-[0px_4px_58.5px_0px_#0000000F] m-3 p-3 rounded-lg relative bg-white"
     >
-      <button class="md:hidden">
-        <img src="src/assets/icons/menu.svg" alt="منو" class="w-6 h-6" />
-      </button>
-      <div
-        class="text-center text-base md:text-xl font-semibold text-[#000000]"
-      >
-        کوئرا لیست
-      </div>
-      <!--desktop nav -->
-      <nav
-        class="hidden md:flex ml-auto justify-between items-center text-base text-[#4B5563]"
-      >
-        <ul class="flex ml-auto gap-[72px]">
-          <li>
-            <a href="./index.html" class="transition-colors hover:text-blue-600"
-              >صفحه اصلی</a
-            >
-          </li>
-          <li>
-            <a
-              href="./pages/about.html"
-              class="transition-colors hover:text-blue-600"
-              >درباره ما</a
-            >
-          </li>
-          <li>
-            <a
-              href="./pages/contact.html"
-              class="transition-colors hover:text-blue-600"
-              >ارتباط با ما</a
-            >
-          </li>
-        </ul>
-      </nav>
-      <div class="md:flex hidden">
-        <a
-          class="ml-2 rounded-[6px] bg-[var(--color-primary-light)] hover:bg-[var(--color-primary-hover-light)] text-white px-6 py-2 text-base"
-          >ورود به اپلیکیشن</a
-        >
-
-        <div
-          class="relative w-10 h-10 border border-[#e3e3e3] rounded-[6px] grid place-items-center group"
-        >
-          <img src="src/assets/icons/Frame.svg" class="" alt="frame" />
-
-          <div
-            class="absolute top-full left-0 mt-1 w-40 rounded-md border border-[#EBEDEF] bg-[#ffffff] opacity-0 transition-all group-hover:opacity-100 z-10"
+      <div class="flex flex-row justify-between items-center">
+        <button id="hamburgerBtn" class="cursor-pointer z-10">
+          <!-- آیکون منو (SVG) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <ul class="py-1 text-sm text-gray-700">
-              <label
-                class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              >
-                روشن
-                <input
-                  type="radio"
-                  name="theme"
-                  value="light"
-                  class="hidden peer"
-                />
-                <span class="hidden peer-checked:inline text-green-500">✔</span>
-              </label>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
 
-              <li>
-                <label
-                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 cursor-pointer"
+        <h1
+          class="font-yekanbakh font-bold absolute left-1/2 transform -translate-x-1/2"
+        >
+          کوئرا لیست
+        </h1>
+      </div>
+
+      <div
+        class="overlay-menu hidden fixed inset-0 bg-white bg-opacity-90 z-50"
+      >
+        <div class="absolute inset-0 bg-gray-700 bg-opacity-90"></div>
+        <div class="menu-content relative w-4/5 h-full bg-white ml-auto">
+          <div class="flex flex-row justify-between items-center p-4 border-b">
+            <div class="w-8 h-8"></div>
+
+            <h2 class="text-xl font-bold">کوئرا لیست</h2>
+            <button id="closeBtn" class="close-btn z-50 cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 text-gray-800"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <nav class="p-6">
+            <ul class="space-y-6">
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/tasks.svg" alt="tasks" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >خانه</a
                 >
-                  تاریک
-                  <input
-                    type="radio"
-                    name="theme"
-                    value="dark"
-                    class="hidden peer"
-                  />
-                  <span class="hidden peer-checked:inline text-green-500"
-                    >✔</span
-                  >
-                </label>
               </li>
-              <li>
-                <label
-                  class="flex items-center justify-between px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/task-square.svg" alt="tasks" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >تسک‌</a
                 >
-                  سیستم
-                  <input
-                    type="radio"
-                    name="theme"
-                    value="system"
-                    class="hidden peer"
-                  />
-                  <span class="hidden peer-checked:inline text-green-500"
-                    >✔</span
-                  >
-                </label>
+              </li>
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/calendar.svg" alt="calendar" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >تقویم</a
+                >
+              </li>
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/Reports.svg" alt="Reports" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >گزارشات</a
+                >
+              </li>
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/setting.svg" alt="setting" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >تنظیمات</a
+                >
+              </li>
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/24-support.svg" alt="24-support" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >پشتیبانی</a
+                >
+              </li>
+              <li class="flex flex-row">
+                <img src="./src/assets/icons/profile.svg" alt="profile" />
+                <a
+                  href="#"
+                  class="text-[#525252] font-yekanbakh font-semibold text-sm hover:text-green-400 transition-colors block mx-4"
+                  >پروفایل</a
+                >
               </li>
             </ul>
-          </div>
+          </nav>
         </div>
       </div>
-
-      <span class="w-6 h-6 md:hidden"></span>
     </header>
 
-    <!-- sidbar -->
+    <!-- Sidebar section (visible on desktop) -->
     <nav class="hidden md:block">
       <div class="flex flex-row gap-4 my-6">
         <img
@@ -144,104 +160,67 @@
         />
         <div>
           <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
-          <!-- نمایش تاریخ روز جاری -->
+          <!-- Current date display -->
           <div
-            id="sidebar-date"
-            class="font-yekanbakh font-semibold text-sm text-[#7D7D7F]"
+            class="sidebar-date font-yekanbakh font-semibold text-sm text-[#7D7D7F]"
           ></div>
         </div>
       </div>
     </nav>
-    <script>
-      const PersianMonth = [
-        "فروردین",
-        "اردیبهشت",
-        "خرداد",
-        "تیر",
-        "مرداد",
-        "شهریور",
-        "مهر",
-        "آبان",
-        "آذر",
-        "دی",
-        "بهمن",
-        "اسفند",
-      ];
 
-      const Persiandays = [
-        "یکشنبه",
-        "دوشنبه",
-        "سه‌شنبه",
-        "چهارشنبه",
-        "پنجشنبه",
-        "جمعه",
-        "شنبه",
-      ];
-
-      const getPersianDate = (date) => {
-        let newDate = moment(date);
-        let year = newDate.jYear();
-        let month = PersianMonth[newDate.jMonth()];
-        let dayN = newDate.jDate();
-        let day = Persiandays[newDate.day()];
-
-        return `${day}، ${dayN} ${month} ${year}`;
-      };
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const persianDate = getPersianDate(new Date());
-        const dateElement = document.getElementById("sidebar-date");
-
-        if (dateElement) {
-          dateElement.innerHTML = persianDate;
-        }
-      });
-    </script>
-
-    <section class="container mx-auto">
-      <!-- header mobile -->
-      <div class="flex flex-row gap-4 md:hidden">
+    <!-- Main content section -->
+    <section class="container mx-auto flex flex-col items-center p-4">
+      <!-- Mobile user info -->
+      <div class="flex flex-row gap-4 md:hidden w-full max-w-2xl mb-4">
         <img
           src="./src/assets/images/user5.png"
           alt="user images"
-          class="m-3"
+          class="w-12 h-12"
         />
-        <div>
+        <div class="flex flex-col justify-center">
           <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
-          <!-- نمایش تاریخ روز جاری -->
-          <p class="text-gray-600 text-[15px] md:hidden">امروز</p>
+          <!-- Today indicator for mobile -->
+          <div
+            class="sidebar-date font-yekanbakh font-semibold text-sm text-[#7D7D7F]"
+          ></div>
         </div>
       </div>
-      <hr class="text-[#F5F6F8] md:hidden" />
+      <hr class="text-[#F5F6F8] md:hidden w-full max-w-2xl my-4" />
 
-      <!-- task -->
-      <div class="md:mr-45 m-3">
+      <!-- Tasks section -->
+      <div class="w-full max-w-2xl mb-6 text-center">
         <h2 class="text-[15px] md:text-[25px] font-bold">تسک های امروز</h2>
-        <!-- show the count of tasks must be done-->
+        <!-- Message shown when no tasks exist -->
         <p id="no-tasks-msg">تسکی برای امروز نداری</p>
       </div>
-      <!-- addnewtask-->
+
+      <!-- Add new task button -->
       <img
         src="./src/assets/images/Frame 1000005445.png"
-        class="add-task-button m-3 md:mr-45 border border-dashed inline-flex items-center gap-1 border-gray-400 rounded-md pl-80 md:pl-200 py-4 md:block hover:bg-blue-50 hover:border-blue-600"
+        class="add-task-button justify-center border border-dashed inline-flex items-center gap-1 border-gray-400 rounded-md pl-80 md:pl-200 py-4 md:block hover:bg-blue-50 hover:border-blue-600"
       />
+
+      <!-- Task form (initially hidden) -->
       <section id="task-form" class="hidden">
         <div
           class="flex flex-col gap-6 md:mx-41 mx-4 my-10 md:p-10 p-4 space-y-2 rounded-[16px] border border-[#E9E9E9] shadow-[0px_4px_63px_0px_#00000008]"
         >
-          <!-- <h3 class="text-[#7D7D7F] font-bold text-[16px]">نام تسک</h3>
-          <p class="text-[#AFAEB2] text-[12px]">  توضیحات</p> -->
+          <!-- Task name input -->
           <input
             type="text"
             placeholder="نام تسک"
             class="rounded p-2 w-full text-[#7D7D7F] text-[16px] font-bold focus:outline-none"
             id="task-name"
           />
+
+          <!-- Task description textarea -->
           <textarea
             placeholder="توضیحات"
             class="rounded p-2 w-full text-[#AFAEB2] text-[14px] focus:outline-none"
             id="task-desc"
           ></textarea>
+
+          <!-- Tags button -->
           <a
             href="#"
             class="flex flex-row gap-2 border border-[#E9E9E9] rounded-[4px] p-2 w-fit"
@@ -250,6 +229,8 @@
             <img src="./src/assets/icons/tag-down.svg" />
             تگ ها
           </a>
+
+          <!-- Priority selection (initially hidden) -->
           <div
             class="flex flex-row gap-8 items-center justify-start border border-[#e9e9e9] rounded-[16px] w-fit hidden"
             id="priority-button-frame"
@@ -273,15 +254,18 @@
             </p>
           </div>
 
+          <!-- Divider -->
           <div class="flex-1 h-px bg-[#e9e9e9]"></div>
 
-          <div class="flex flex-row items-center gap-2 justify-end">
-            <a class="md:hidden"
-              ><img
+          <!-- Form actions -->
+          <div class="flex flex-row items-center gap-2 justify-center">
+            <a class="md:hidden">
+              <img
                 src="./Frame.svg"
                 class="border border-[#F5F5F5] bg-[#F5F5F5] rounded-[4px] p-3"
                 alt=""
-            /></a>
+              />
+            </a>
             <button
               class="bg-[#007BFF] rounded-[6px] px-8 py-3 text-white"
               id="add-task-btn"
@@ -291,17 +275,22 @@
           </div>
         </div>
       </section>
-      <!-- back ground image-->
+
+      <!-- Background image for empty state -->
       <img
         id="task-back-img"
         src="./src/assets/images/Frame 1000005526.png"
         class="justify-center mx-auto"
       />
+
+      <!-- Tasks container -->
       <div
         id="tasks-container"
         class="flex flex-col gap-2 mt-6 mx-auto px-4 max-w-5xl"
       ></div>
     </section>
+
+    <!-- Main application script -->
     <script src="src/main.js"></script>
   </body>
 </html>
