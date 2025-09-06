@@ -16,7 +16,8 @@ const priorityButtons = document.querySelectorAll(".priority-option");
 const noTasksMsg = document.getElementById("no-tasks-msg");
 const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
-
+const doneTasksContainer = document.getElementById("done-tasks");
+const doneCount = document.getElementById("done-count");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
@@ -53,6 +54,7 @@ function saveTasks() {
 // show tasks
 function renderTasks() {
   tasksContainer.innerHTML = "";
+  doneTasksContainer.innerHTML = "";
   if (tasks.length === 0) {
     noTasksMsg.style.display = "block";
     if (taskimgback) {
@@ -75,7 +77,7 @@ function renderTasks() {
       borderColorClass = "border-r-[#FF5F37]";
     }
     const taskFrame = document.createElement("div");
-    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative`;
+    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative mt-3`;
 
     // menu threepoints on the left
     const menucontainer = document.createElement("div");
@@ -112,11 +114,13 @@ function renderTasks() {
     checkbox.addEventListener("change", () => {
       task.completed = checkbox.checked;
       saveTasks();
+      renderTasks(); //  دوباره رندر بشه تا استایل آپدیت بشه
     });
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
-    nameSpan.className = "font-semibold";
+    nameSpan.className =
+      "font-semibold" + (task.completed ? " line-through text-gray-400" : ""); //یرای تسک انجام شده
 
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
@@ -125,8 +129,8 @@ function renderTasks() {
       (task.priority.trim() === "پایین"
         ? "bg-[#C3FFF1] text-[#11A483]"
         : task.priority.trim() === "متوسط"
-        ? "bg-[#FFEFD6] text-[#FFAF37]"
-        : "bg-[#FFE2DB] text-[#FF5F37]");
+          ? "bg-[#FFEFD6] text-[#FFAF37]"
+          : "bg-[#FFE2DB] text-[#FF5F37]");
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
@@ -143,13 +147,21 @@ function renderTasks() {
     // second line : explains
     const line2 = document.createElement("p");
     line2.textContent = task.desc;
-    line2.className = "text-gray-700";
+    line2.className =
+      "text-gray-700" + (task.completed ? " line-through text-gray-400" : "");// done task
 
     taskFrame.appendChild(line1);
     taskFrame.appendChild(line2);
 
-    tasksContainer.appendChild(taskFrame);
+    (task.completed ? doneTasksContainer : tasksContainer).appendChild(taskFrame);
   });
+  //count
+  const completedCount = tasks.filter(t => t.completed).length;
+  if (doneCount) {
+    doneCount.textContent = completedCount > 0
+      ? `${completedCount} تسک انجام شده`
+      : "فعلاً هیچ تسکی انجام نشده";
+  }
 }
 
 // add new tasks
