@@ -37,7 +37,6 @@
   </head>
   <body class="bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] text-[var(--color-foreground-light)] dark:text-[var(--color-foreground-dark)]">
     <!-- header -->
-
     <header
       class="md:hidden w-full flex justify-between items-center gap-2 px-4 py-3 
              bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] 
@@ -151,7 +150,7 @@
       <span class="w-6 h-6 md:hidden"></span>
     </header>
 
-    <!-- sidbar -->
+    <!-- sidebar -->
     <nav class="hidden md:block">
       <div class="flex flex-row gap-4 my-6">
         <img
@@ -170,23 +169,43 @@
       </div>
     </nav>
 
-    <section class="container mx-auto">
-      <!-- header mobile -->
-      <div class="flex flex-row gap-4 md:hidden">
-        <img
-          src="./src/assets/images/user5.png"
-          alt="user images"
-          class="m-3"
-        />
-        <div>
-          <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
-          <!-- نمایش تاریخ روز جاری -->
-          <p class="text-gray-600 dark:text-slate-400 text-[15px] md:hidden">امروز</p>
-        </div>
-      </div>
-      <hr class="text-[#F5F6F8] dark:text-slate-700 md:hidden" />
+    <!-- 📅 اسکریپت تقویم فارسی (سرجاش نگه داشتم) -->
+    <script>
+      const PersianMonth = [
+        "فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور",
+        "مهر","آبان","آذر","دی","بهمن","اسفند",
+      ];
+      const Persiandays = [
+        "یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه",
+      ];
+      const getPersianDate = (date) => {
+        let newDate = moment(date);
+        let year = newDate.jYear();
+        let month = PersianMonth[newDate.jMonth()];
+        let dayN = newDate.jDate();
+        let day = Persiandays[newDate.day()];
+        return `${day}، ${dayN} ${month} ${year}`;
+      };
+      document.addEventListener("DOMContentLoaded", function () {
+        const persianDate = getPersianDate(new Date());
+        const dateElement = document.getElementById("sidebar-date");
+        if (dateElement) {
+          dateElement.innerHTML = persianDate;
+        }
+      });
+    </script>
 
-      <!-- task -->
+    <section class="container mx-auto"> 
+      <!-- header mobile --> 
+      <div class="flex flex-row gap-4 md:hidden">
+         <img src="./src/assets/images/user5.png" alt="user images" class="m-3" />
+          <div> <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
+             <!-- نمایش تاریخ روز جاری --> 
+             <p class="text-gray-600 text-[15px] md:hidden">امروز</p>
+              </div>
+               </div>
+                <hr class="text-[#F5F6F8] md:hidden" />
+    <!-- task -->
       <div class="md:mr-45 m-3">
         <h2 class="text-[15px] md:text-[25px] font-bold text-slate-800 dark:text-slate-100">تسک های امروز</h2>
         <!-- show the count of tasks must be done-->
