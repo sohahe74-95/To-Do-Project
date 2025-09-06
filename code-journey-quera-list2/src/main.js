@@ -134,6 +134,7 @@ function renderTasks() {
           ? "bg-[#FFEFD6] text-[#FFAF37] dark:text:[#ffffff] dark:bg-[#302F2D]"
           : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#fffff]");
 
+
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
       return (
