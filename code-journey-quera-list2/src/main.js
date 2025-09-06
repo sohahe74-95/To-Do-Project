@@ -70,14 +70,16 @@ function renderTasks() {
   tasks.forEach((task, index) => {
     let borderColorClass = "";
     if (task.priority.trim() === "پایین") {
-      borderColorClass = "border-r-[#11A483]";
+      borderColorClass = "border-r-[#11A483] dark:border-r-[#11A483]";
     } else if (task.priority.trim() === "متوسط") {
-      borderColorClass = "border-r-[#FFAF37]";
+      borderColorClass = "border-r-[#FFAF37] dark:border-r-[#FFAF37]";
     } else if (task.priority.trim() === "بالا") {
-      borderColorClass = "border-r-[#FF5F37]";
+      borderColorClass = "border-r-[#FF5F37] dark:border-r-[#FF5F37]";
     }
     const taskFrame = document.createElement("div");
-    taskFrame.className = `border border-gray-300 border-r-4 ${borderColorClass} rounded-lg p-4 shadow flex flex-col gap-2 relative mt-3`;
+    taskFrame.className = `border border-gray-300 dark:border-slate-900 border-r-4 ${borderColorClass}
+     rounded-lg p-4 shadow flex flex-col gap-2 relative mt-3
+     bg-white dark:bg-slate-900`;
 
     // menu threepoints on the left
     const menucontainer = document.createElement("div");
@@ -86,13 +88,13 @@ function renderTasks() {
     menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
     const menuFrame = document.createElement("div");
-    menuFrame.className =
-      "task-menu-frame absolute top-full left-0 mt-1 w-36 bg-white border border-gray-300 rounded shadow-md hidden flex justify-between items-center p-2 gap-2";
+    menuFrame.className = "task-menu-frame absolute top-full left-0 mt-1 w-36 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-2 gap-2";
+
     menuFrame.innerHTML = `
-      <button class="edit-btn flex items-center justify-center p-1 hover:bg-gray-100 rounded">
+      <button class="edit-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
         <img src="./src/assets/images/Group.png" alt="edit" class="w-5 h-5"/>
       </button>
-      <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 rounded">
+      <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
         <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-5 h-5"/>
       </button>
     `;
@@ -120,17 +122,17 @@ function renderTasks() {
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
     nameSpan.className =
-      "font-semibold" + (task.completed ? " line-through text-gray-400" : ""); //یرای تسک انجام شده
+      "font-semibold text-slate-800 dark:text-slate-100" + (task.completed ? " line-through text-gray-400 dark:text-[#ffffff]" : ""); //یرای تسک انجام شده
 
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
     prioritySpan.className =
       "ml-auto px-2 py-1 rounded text-white " +
       (task.priority.trim() === "پایین"
-        ? "bg-[#C3FFF1] text-[#11A483]"
+        ? "bg-[#C3FFF1] text-[#11A483] dark:text:[#ffffff] dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
-          ? "bg-[#FFEFD6] text-[#FFAF37]"
-          : "bg-[#FFE2DB] text-[#FF5F37]");
+          ? "bg-[#FFEFD6] text-[#FFAF37] dark:text:[#ffffff] dark:bg-[#302F2D]"
+          : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#fffff]");
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
@@ -148,7 +150,7 @@ function renderTasks() {
     const line2 = document.createElement("p");
     line2.textContent = task.desc;
     line2.className =
-      "text-gray-700" + (task.completed ? " line-through text-gray-400" : "");// done task
+      "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
     taskFrame.appendChild(line2);
@@ -202,3 +204,48 @@ addTaskBtn.addEventListener("click", () => {
 
 // initial render
 renderTasks();
+
+//dark mode
+// رادیوهای انتخاب تم
+const themeRadios = document.querySelectorAll('input[name="theme"]');
+
+// ست‌کردن حالت با توجه به انتخاب کاربر
+function applyTheme(mode) {
+  const root = document.documentElement;
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+
+  // پاکسازی لیسنر قبلی
+  mq.onchange = null;
+
+  if (mode === "dark") {
+    root.classList.add("dark");
+    localStorage.setItem("theme", "dark");
+  } else if (mode === "light") {
+    root.classList.remove("dark");
+    localStorage.setItem("theme", "light");
+  } else {
+    // system
+    localStorage.setItem("theme", "system");
+    const setBySystem = () =>
+      mq.matches ? root.classList.add("dark") : root.classList.remove("dark");
+    setBySystem();
+    mq.onchange = setBySystem;
+  }
+}
+
+// مقدار اولیه رادیوها
+(function initThemeRadios() {
+  const saved = localStorage.getItem("theme") || "system";
+  const radio = document.querySelector(`input[name="theme"][value="${saved}"]`);
+  if (radio) radio.checked = true;
+  // اگر چیزی ذخیره نبود، رادیوی system را تیک بزن
+  if (!radio) {
+    const sys = document.querySelector('input[name="theme"][value="system"]');
+    if (sys) sys.checked = true;
+  }
+})();
+
+// تغییرات کاربر
+themeRadios.forEach(r => {
+  r.addEventListener("change", () => applyTheme(r.value));
+});
