@@ -101,6 +101,122 @@ function renderTasks() {
     menucontainer.appendChild(menuFrame);
     taskFrame.appendChild(menucontainer);
 
+    //start code maryam
+    // delete task
+    const deletetask = menuFrame.querySelector(".delete-btn");
+    deletetask.addEventListener("click", () => {
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+    });
+
+    // edit task
+    const editBtn = menuFrame.querySelector(".edit-btn");
+    editBtn.addEventListener("click", () => {
+      if (taskFrame.querySelector(".edit-form-inline")) return;
+      const editForm = document.createElement("div");
+      editForm.className =
+        "edit-form-inline flex flex-col gap-2 mt-2 bg-gray-50 p-3 rounded border";
+
+      const editname = document.createElement("input");
+      editname.type = "text";
+      editname.value = task.name;
+      editname.className =
+        "font-semibold  p-1 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm";
+
+      const descedit = document.createElement("textarea");
+      descedit.value = task.desc;
+      descedit.className =
+        "text-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none";
+
+      // الویت
+      let currentPriority = task.priority;
+      const priorityWrapper = document.createElement("div");
+      priorityWrapper.className = "flex items-center gap-2";
+      const editpriority = document.createElement("span");
+      editpriority.textContent = currentPriority;
+      editpriority.className =
+        "px-2 py-1 rounded text-sm " +
+        (currentPriority === "پایین"
+          ? "bg-[#C3FFF1] text-[#11A483]"
+          : currentPriority === "متوسط"
+          ? "bg-[#FFEFD6] text-[#FFAF37]"
+          : "bg-[#FFE2DB] text-[#FF5F37]");
+
+      const removePriorityBtn = document.createElement("button");
+      removePriorityBtn.innerHTML = "✕";
+      removePriorityBtn.className =
+        "text-gray-500 hover:text-red-500 text-xl font-bold";
+
+      priorityWrapper.appendChild(editpriority);
+      priorityWrapper.appendChild(removePriorityBtn);
+
+      const priorityOptionsWrapper = document.createElement("div");
+      priorityOptionsWrapper.className = "flex gap-3 hidden";
+
+      ["پایین", "متوسط", "بالا"].forEach((p) => {
+        const btn = document.createElement("button");
+        btn.textContent = p;
+        btn.className =
+          "priority-option px-3 py-1 rounded text-sm border " +
+          (p === "پایین"
+            ? "bg-[#C3FFF1] text-[#11A483]"
+            : p === "متوسط"
+            ? "bg-[#FFEFD6] text-[#FFAF37]"
+            : "bg-[#FFE2DB] text-[#FF5F37]");
+
+        btn.addEventListener("click", () => {
+          currentPriority = p;
+          editpriority.textContent = p;
+          editpriority.className =
+            "px-2 py-1 rounded text-sm " +
+            (p === "پایین"
+              ? "bg-[#C3FFF1] text-[#11A483]"
+              : p === "متوسط"
+              ? "bg-[#FFEFD6] text-[#FFAF37]"
+              : "bg-[#FFE2DB] text-[#FF5F37]");
+          priorityOptionsWrapper.classList.add("hidden");
+          priorityWrapper.classList.remove("hidden");
+        });
+
+        priorityOptionsWrapper.appendChild(btn);
+      });
+
+      removePriorityBtn.addEventListener("click", () => {
+        priorityWrapper.classList.add("hidden");
+        priorityOptionsWrapper.classList.remove("hidden");
+      });
+
+      const hr = document.createElement("hr");
+
+      const editBtnform = document.createElement("button");
+      editBtnform.textContent = "ویرایش تسک";
+      editBtnform.className =
+        "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-fit self-end text-sm";
+
+      editForm.appendChild(editname);
+      editForm.appendChild(descedit);
+      editForm.appendChild(priorityWrapper);
+      editForm.appendChild(priorityOptionsWrapper);
+      editForm.appendChild(hr);
+      editForm.appendChild(editBtnform);
+
+      taskFrame.appendChild(editForm);
+
+      editBtnform.addEventListener("click", () => {
+        const newName = editname.value.trim();
+        const newDesc = descedit.value.trim();
+
+        tasks[index].name = newName;
+        tasks[index].desc = newDesc;
+        tasks[index].priority = currentPriority;
+
+        saveTasks();
+        renderTasks();
+      });
+    });
+    // end code maryam
+
     // first line : checkbox + priority + name
     const line1 = document.createElement("div");
     line1.className = "flex items-center gap-2";
