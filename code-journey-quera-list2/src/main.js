@@ -248,7 +248,7 @@ function renderTasks() {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = task.completed;
-    checkbox.className = "w-4 h-4";
+    checkbox.className = "w-4 h-4 dark:bg-transparent dark:appearance-none dark:border dark:border-[#CCCCCC] checked:bg-[#007BFF] rounded-sm";
     checkbox.addEventListener("change", () => {
       task.completed = checkbox.checked;
       saveTasks();
