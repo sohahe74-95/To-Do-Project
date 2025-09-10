@@ -8,6 +8,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburgerbtn = document.getElementById("hamburger-btn");
+  const sidebar = document.getElementById("mobile-sidebar");
+  hamburgerbtn.addEventListener("click", () => {
+    sidebar.classList.toggle("hidden");
+  });
+  document.addEventListener("click", (e) => {
+    if (!sidebar.contains(e.target) && !hamburgerbtn.contains(e.target)) {
+      sidebar.classList.add("hidden");
+    }
+  });
+});
+
 const taskNameInput = document.getElementById("task-name");
 const taskDescInput = document.getElementById("task-desc");
 const addTaskBtn = document.getElementById("add-task-btn");
@@ -34,12 +47,18 @@ priorityButtons.forEach((btn) => {
       b.classList.remove("hidden");
       b.style.removeProperty("display");
     });
-
+    //for display line between buttons
+    document.querySelectorAll("#priority-button-frame span").forEach((span) => {
+      span.classList.remove("hidden");
+    });
     // just choosed button
     priorityButtons.forEach((b) => {
       if (b !== btn) b.classList.add("hidden");
     });
-
+    //for remove line between buttons
+    document.querySelectorAll("#priority-button-frame span").forEach((span) => {
+      span.classList.add("hidden");
+    });
     tagbutton.classList.add("hidden");
   });
 });
@@ -88,7 +107,8 @@ function renderTasks() {
     menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
     const menuFrame = document.createElement("div");
-    menuFrame.className = "task-menu-frame absolute top-full left-0 mt-1 w-36 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-2 gap-2";
+    menuFrame.className =
+      "task-menu-frame absolute top-full left-0 mt-1 w-36 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-2 gap-2";
 
     menuFrame.innerHTML = `
       <button class="edit-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
@@ -238,7 +258,8 @@ function renderTasks() {
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
     nameSpan.className =
-      "font-semibold text-slate-800 dark:text-slate-100" + (task.completed ? " line-through text-gray-400 dark:text-[#ffffff]" : ""); //یرای تسک انجام شده
+      "font-semibold text-slate-800 dark:text-slate-100" +
+      (task.completed ? " line-through text-gray-400 dark:text-[#ffffff]" : ""); //یرای تسک انجام شده
 
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
@@ -247,9 +268,8 @@ function renderTasks() {
       (task.priority.trim() === "پایین"
         ? "bg-[#C3FFF1] text-[#11A483] dark:text:[#ffffff] dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
-          ? "bg-[#FFEFD6] text-[#FFAF37] dark:text:[#ffffff] dark:bg-[#302F2D]"
-          : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#fffff]");
-
+        ? "bg-[#FFEFD6] text-[#FFAF37] dark:text:[#ffffff] dark:bg-[#302F2D]"
+        : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#fffff]");
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
@@ -272,14 +292,17 @@ function renderTasks() {
     taskFrame.appendChild(line1);
     taskFrame.appendChild(line2);
 
-    (task.completed ? doneTasksContainer : tasksContainer).appendChild(taskFrame);
+    (task.completed ? doneTasksContainer : tasksContainer).appendChild(
+      taskFrame
+    );
   });
   //count
-  const completedCount = tasks.filter(t => t.completed).length;
+  const completedCount = tasks.filter((t) => t.completed).length;
   if (doneCount) {
-    doneCount.textContent = completedCount > 0
-      ? `${completedCount} تسک انجام شده`
-      : "فعلاً هیچ تسکی انجام نشده";
+    doneCount.textContent =
+      completedCount > 0
+        ? `${completedCount} تسک انجام شده`
+        : "فعلاً هیچ تسکی انجام نشده";
   }
 }
 
@@ -363,6 +386,6 @@ function applyTheme(mode) {
 })();
 
 // تغییرات کاربر
-themeRadios.forEach(r => {
+themeRadios.forEach((r) => {
   r.addEventListener("change", () => applyTheme(r.value));
 });

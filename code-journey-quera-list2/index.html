@@ -9,9 +9,12 @@
     <script>
       // اعمال تم ذخیره‌شده یا تم سیستم، قبل از رندر
       (function () {
-        const ls = localStorage.getItem("theme");             // 'light' | 'dark' | 'system' | null
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const wantDark = ls === "dark" || (!ls || ls === "system") && prefersDark;
+        const ls = localStorage.getItem("theme"); // 'light' | 'dark' | 'system' | null
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const wantDark =
+          ls === "dark" || ((!ls || ls === "system") && prefersDark);
         if (wantDark) document.documentElement.classList.add("dark");
       })();
     </script>
@@ -35,14 +38,14 @@
       }
     </style>
   </head>
-  <body class="bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] text-[var(--color-foreground-light)] dark:text-[var(--color-foreground-dark)]">
+  <body
+    class="bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] text-[var(--color-foreground-light)] dark:text-[var(--color-foreground-dark)]"
+  >
     <!-- header -->
     <header
-      class="md:hidden w-full flex justify-between items-center gap-2 px-4 py-3 
-             bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] 
-             shadow-[0px_4px_18px_0px_#1848900F] mx-auto max-w-screen-xl h-[49px]"
+      class="md:hidden w-full flex justify-between items-center gap-2 px-4 py-3 bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] shadow-[0px_4px_18px_0px_#1848900F] mx-auto max-w-screen-xl h-[49px]"
     >
-      <button class="md:hidden">
+      <button class="md:hidden" id="hamburger-btn">
         <img src="src/assets/icons/menu.svg" alt="منو" class="w-6 h-6" />
       </button>
       <div
@@ -56,7 +59,9 @@
       >
         <ul class="flex ml-auto gap-[72px]">
           <li>
-            <a href="./index.html" class="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+            <a
+              href="./index.html"
+              class="transition-colors hover:text-blue-600 dark:hover:text-blue-400"
               >صفحه اصلی</a
             >
           </li>
@@ -78,10 +83,7 @@
       </nav>
       <div class="md:flex hidden">
         <a
-          class="ml-2 rounded-[6px] 
-                 bg-[var(--color-primary-light)] hover:bg-[var(--color-primary-hover-light)] text-white
-                 dark:bg-[var(--color-primary-dark)] dark:hover:bg-[var(--color-primary-hover-dark)] dark:text-[var(--color-on-primary-dark)]
-                 px-6 py-2 text-base"
+          class="ml-2 rounded-[6px] bg-[var(--color-primary-light)] hover:bg-[var(--color-primary-hover-light)] text-white dark:bg-[var(--color-primary-dark)] dark:hover:bg-[var(--color-primary-hover-dark)] dark:text-[var(--color-on-primary-dark)] px-6 py-2 text-base"
           >ورود به اپلیکیشن</a
         >
 
@@ -91,10 +93,7 @@
           <img src="src/assets/icons/Frame.svg" class="" alt="frame" />
 
           <div
-            class="absolute top-full left-0 mt-1 w-40 rounded-md 
-                   border border-[#EBEDEF] dark:border-slate-700 
-                   bg-[#ffffff] dark:bg-slate-900 
-                   opacity-0 transition-all group-hover:opacity-100 z-10"
+            class="absolute top-full left-0 mt-1 w-40 rounded-md border border-[#EBEDEF] dark:border-slate-700 bg-[#ffffff] dark:bg-slate-900 opacity-0 transition-all group-hover:opacity-100 z-10"
           >
             <ul class="py-1 text-sm text-gray-700 dark:text-slate-300">
               <label
@@ -151,30 +150,168 @@
     </header>
 
     <!-- sidebar -->
-    <nav class="hidden md:block">
+    <!-- <nav class="hidden md:block">
       <div class="flex flex-row gap-4 my-6">
         <img
           src="./src/assets/images/user5.png"
           alt="user images"
           class="m-3"
         />
-        <div>
-          <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
-          <!-- نمایش تاریخ روز جاری -->
-          <div
+        <div> -->
+    <!-- <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2> -->
+    <!-- نمایش تاریخ روز جاری -->
+    <!-- <div
             id="sidebar-date"
             class="font-yekanbakh font-semibold text-sm text-[#7D7D7F] dark:text-slate-400"
           ></div>
         </div>
       </div>
-    </nav>
+    </nav> -->
+    <aside
+      class="hidden md:block fixed top-0 right-0 h-full w-64 bg-white dark:bg-slate-900 shadow-md z-40"
+      id="mobile-sidebar"
+    >
+      <!-- user and date-->
+      <div
+        class="flex items-center gap-3 px-4 py-6 border-b border-gray-200 dark:border-slate-700"
+      >
+        <img
+          src="./src/assets/images/user5.png"
+          alt="user"
+          class="w-12 h-12 rounded-full"
+        />
+        <div>
+          <h2 class="font-Kalameh font-bold text-sm">سلام، رویا</h2>
+          <div
+            id="sidebar-date"
+            class="font-yekanbakh font-semibold text-xs text-[#7D7D7F] dark:text-slate-400"
+          ></div>
+        </div>
+      </div>
+
+      <!-- menubar-->
+      <ul
+        class="px-4 py-6 space-y-4 text-sm font-medium text-gray-700 dark:text-slate-300"
+      >
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img src="./src/assets/icons/Vector.svg" alt="خانه" class="w-5 h-5" />
+          خانه
+        </li>
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img
+            src="./src/assets/icons/task-square.svg"
+            alt="تسک‌ها"
+            class="w-5 h-5"
+          />
+          تسک‌ها
+        </li>
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img
+            src="./src/assets/icons/calendar.svg"
+            alt="تقویم"
+            class="w-5 h-5"
+          />
+          تقویم
+        </li>
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img
+            src="./src/assets/icons/arrange-square-2.svg"
+            alt="گزارشات"
+            class="w-5 h-5"
+          />
+          گزارشات
+        </li>
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img
+            src="./src/assets/icons/setting.svg"
+            alt="تنظیمات"
+            class="w-5 h-5"
+          />
+          تنظیمات
+        </li>
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img
+            src="./src/assets/icons/24-support.svg"
+            alt="پشتیبانی"
+            class="w-5 h-5"
+          />
+          پشتیبانی
+        </li>
+        <li
+          class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <img
+            src="./src/assets/icons/profile.svg"
+            alt="پروفایل"
+            class="w-5 h-5"
+          />
+          پروفایل
+        </li>
+      </ul>
+
+      <!--Light and Dark Button-->
+
+      <div class="flex px-4 py-4 mt-20">
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-l bg-white-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-blue-500 hover:text-white border border-gray-300 dark:border-gray-600"
+        >
+          <img src="./src/assets/icons/sun.svg" alt="روشن" class="w-4 h-4" />
+          روشن
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 rounded-r bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-blue-500 hover:text-white border border-gray-300 dark:border-gray-600 border-l-0"
+        >
+          <img src="./src/assets/icons/moon.svg" alt="تاریک" class="w-4 h-4" />
+          تاریک
+        </button>
+      </div>
+
+      <!-- Exit Button-->
+      <div
+        class="mt-auto px-4 py-4 border-t border-gray-200 dark:border-slate-700"
+      >
+        <button class="flex items-center gap-3 text-black hover:text-red-700">
+          <img src="./src/assets/icons/logout.svg" class="w-5 h-5" />
+          خروج
+        </button>
+      </div>
+    </aside>
+
     <script>
       const PersianMonth = [
-        "فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور",
-        "مهر","آبان","آذر","دی","بهمن","اسفند",
+        "فروردین",
+        "اردیبهشت",
+        "خرداد",
+        "تیر",
+        "مرداد",
+        "شهریور",
+        "مهر",
+        "آبان",
+        "آذر",
+        "دی",
+        "بهمن",
+        "اسفند",
       ];
       const Persiandays = [
-        "یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه",
+        "یکشنبه",
+        "دوشنبه",
+        "سه‌شنبه",
+        "چهارشنبه",
+        "پنجشنبه",
+        "جمعه",
+        "شنبه",
       ];
       const getPersianDate = (date) => {
         let newDate = moment(date);
@@ -192,33 +329,49 @@
         }
       });
     </script>
-    <section class="container mx-auto"> 
-      <!-- header mobile --> 
+    <section class="container mx-auto">
+      <!-- header mobile -->
       <div class="flex flex-row gap-4 md:hidden">
-         <img src="./src/assets/images/user5.png" alt="user images" class="m-3" />
-          <div> <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
-             <!-- نمایش تاریخ روز جاری --> 
-             <p class="text-gray-600 text-[15px] md:hidden">امروز</p>
-              </div>
-               </div>
-                <hr class="text-[#F5F6F8] md:hidden" />
-    <!-- task -->
+        <img
+          src="./src/assets/images/user5.png"
+          alt="user images"
+          class="m-3"
+        />
+        <div>
+          <h2 class="font-Kalameh font-bold text-sm my-3">سلام، رویا</h2>
+          <!-- نمایش تاریخ روز جاری -->
+          <p class="text-gray-600 text-[15px] md:hidden">امروز</p>
+        </div>
+      </div>
+      <hr class="text-[#F5F6F8] md:hidden" />
+      <!-- task -->
       <div class="md:mr-45 m-3">
-        <h2 class="text-[15px] md:text-[25px] font-bold text-slate-800 dark:text-slate-100">تسک های امروز</h2>
-        <!-- show the count of tasks must be done-->
-        <p id="no-tasks-msg" class="text-slate-600 dark:text-slate-300">تسکی برای امروز نداری</p>
+        <h2
+          class="text-[15px] md:text-[25px] font-bold text-slate-800 dark:text-slate-100"
+        >
+          تسک های امروز
+        </h2>
+        <!--- show the count of tasks must be done--->
+        <p id="no-tasks-msg" class="text-slate-600 dark:text-slate-300">
+          تسکی برای امروز نداری
+        </p>
       </div>
       <!-- addnewtask-->
-      <img
+      <!-- <img
         src="./src/assets/images/Frame 1000005445.png"
-        class="add-task-button m-3 md:mr-45 border border-dashed inline-flex items-center gap-1 border-gray-400 dark:border-slate-600 rounded-md pl-80 md:pl-200 py-4 md:block hover:bg-blue-50 dark:hover:bg-slate-700 hover:border-blue-600 dark:hover:border-blue-400"
-      />
+        class="add-task-button m-2 mx-4 md:mx-20 border border-dashed inline-flex items-center gap-1 border-gray-400 rounded-md py-4 md:block hover:bg-blue-50 hover:border-blue-600"
+      /> -->
+      <div class="px-6 md:px-36">
+        <div
+          class="add-task-button w-full m-2 border border-dashed inline-flex items-center gap-1 border-gray-400 rounded-md py-4 md:block hover:bg-blue-50 hover:border-blue-600"
+        >
+          <img src="./src/assets/images/Frame 1000005445.png" alt="Add Task" />
+        </div>
+      </div>
+
       <section id="task-form" class="hidden">
         <div
-          class="flex flex-col gap-6 md:mx-41 mx-4 my-10 md:p-10 p-4 space-y-2 
-                 rounded-[16px] border border-[#E9E9E9] dark:border-slate-700 
-                 shadow-[0px_4px_63px_0px_#00000008] 
-                 bg-white dark:bg-slate-900"
+          class="flex flex-col gap-2 md:mx-36 mx-4 my-10 md:p-10 p-4 space-y-1 rounded-[16px] border border-[#E9E9E9] dark:border-slate-700 shadow-[0px_4px_63px_0px_#00000008] bg-white dark:bg-slate-900"
         >
           <input
             type="text"
@@ -243,11 +396,23 @@
             class="flex flex-row gap-8 items-center justify-start border border-[#e9e9e9] dark:border-slate-700 rounded-[16px] w-fit hidden"
             id="priority-button-frame"
           >
-            <p class="priority-option px-3 py-2 m-4 bg-[#C3FFF1] text-[#11A483] rounded-[4px]">پایین</p>
+            <p
+              class="priority-option px-3 py-2 m-4 bg-[#C3FFF1] text-[#11A483] rounded-[4px]"
+            >
+              پایین
+            </p>
             <span class="h-8 w-px bg-slate-200/80 dark:bg-slate-600"></span>
-            <p class="priority-option px-3 py-2 m-4 bg-[#FFEFD6] text-[#FFAF37] rounded-[4px]">متوسط</p>
+            <p
+              class="priority-option px-3 py-2 m-4 bg-[#FFEFD6] text-[#FFAF37] rounded-[4px]"
+            >
+              متوسط
+            </p>
             <span class="h-8 w-px bg-slate-200/80 dark:bg-slate-600"></span>
-            <p class="priority-option px-3 py-2 m-4 bg-[#FFE2DB] text-[#FF5F37] rounded-[4px]">بالا</p>
+            <p
+              class="priority-option px-3 py-2 m-4 bg-[#FFE2DB] text-[#FF5F37] rounded-[4px]"
+            >
+              بالا
+            </p>
           </div>
 
           <div class="flex-1 h-px bg-[#e9e9e9] dark:bg-slate-700"></div>
@@ -260,9 +425,7 @@
                 alt=""
             /></a>
             <button
-              class="bg-[#007BFF] dark:bg-[var(--color-primary-dark)] 
-                     hover:bg-blue-600 dark:hover:bg-[var(--color-primary-hover-dark)] 
-                     rounded-[6px] px-8 py-3 text-white dark:text-[var(--color-on-primary-dark)]"
+              class="bg-[#007BFF] dark:bg-[var(--color-primary-dark)] hover:bg-blue-600 dark:hover:bg-[var(--color-primary-hover-dark)] rounded-[6px] px-8 py-3 text-white dark:text-[var(--color-on-primary-dark)]"
               id="add-task-btn"
             >
               اضافه کردن تسک
@@ -278,7 +441,6 @@
         class="justify-center mx-auto"
       />
 
-
       <!-- feature/edit-and-delete-task-->
       <div
         id="tasks-container"
@@ -286,15 +448,17 @@
       ></div>
       <!--line-through-->
       <div class="flex flex-col gap-2 mt-2 mx-auto px-4 max-w-5xl">
-        <h3 class="mt-6 font-bold py-3 text-slate-800 dark:text-slate-100">تسک‌های انجام‌شده</h3>
-        <p id="done-count" class="text-sm text-gray-500 dark:text-slate-400 mt-1"></p>
+        <h3 class="mt-6 font-bold py-3 text-slate-800 dark:text-slate-100">
+          تسک‌های انجام‌شده
+        </h3>
+        <p
+          id="done-count"
+          class="text-sm text-gray-500 dark:text-slate-400 mt-1"
+        ></p>
         <div id="done-tasks"></div>
       </div>
-
     </section>
 
     <script src="src/main.js"></script>
-
-</body>
-
+  </body>
 </html>
