@@ -167,23 +167,52 @@
         </li>
       </ul>
 
-      <!--Light and Dark Button-->
+      <!-- Light/Dark Segmented Toggle -->
+      <div class="flex items-center justify-center mt-20 mb-4 mx-auto px-4">
+        <div
+          class="inline-flex items-center gap-1 rounded-xl bg-gray-100 dark:bg-[#0C1B31] p-1 border border-gray-200 dark:border-[#0C1B31]"
+          role="group"
+          aria-label="Theme toggle"
+        >
+          <!-- Dark option -->
+          <input
+            type="radio"
+            name="theme"
+            id="theme-dark"
+            value="dark"
+            class="peer hidden"
+          />
+          <label
+            for="theme-dark"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-600 dark:text-slate-300 peer-checked:bg-white peer-checked:text-gray-900 dark:peer-checked:text-slate-900 dark:bg-[#002247] cursor-pointer"
+            title="تاریک"
+          >
+            تاریک
+            <img
+              src="./src/assets/icons/moon.svg"
+              alt="تاریک"
+              class="w-4 h-4"
+            />
+          </label>
 
-      <div class="flex px-4 py-4 mt-20">
-        <button
-          class="flex items-center gap-2 px-4 py-2 rounded-l bg-white-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-blue-500 hover:text-white border border-gray-300 dark:border-gray-600"
-        >
-          <img src="./src/assets/icons/sun.svg" alt="روشن" class="w-4 h-4" />
-          روشن
-        </button>
-        <button
-          class="flex items-center gap-2 px-4 py-2 rounded-r bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-blue-500 hover:text-white border border-gray-300 dark:border-gray-600 border-l-0"
-        >
-          <img src="./src/assets/icons/moon.svg" alt="تاریک" class="w-4 h-4" />
-          تاریک
-        </button>
+          <!-- Light option -->
+          <input
+            type="radio"
+            name="theme"
+            id="theme-light"
+            value="light"
+            class="peer hidden"
+          />
+          <label
+            for="theme-light"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 dark:text-slate-200 peer-checked:bg-white peer-checked:text-gray-900 dark:peer-checked:text-slate-900 dark:bg-{#0C1B31} cursor-pointer"
+            title="روشن"
+          >
+            روشن
+            <img src="./src/assets/icons/sun.svg" alt="روشن" class="w-4 h-4" />
+          </label>
+        </div>
       </div>
-
       <!-- Exit Button-->
       <div
         class="mt-auto px-4 py-4 border-t border-gray-200 dark:border-slate-700"

@@ -248,7 +248,8 @@ function renderTasks() {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = task.completed;
-    checkbox.className = "w-4 h-4 dark:bg-transparent dark:appearance-none dark:border dark:border-[#CCCCCC] checked:bg-[#007BFF] rounded-sm";
+    checkbox.className =
+      "w-4 h-4 rounded-sm border border-[#CCCCCC] dark:border-[#6B7280] dark:bg-transparent ";
     checkbox.addEventListener("change", () => {
       task.completed = checkbox.checked;
       saveTasks();
@@ -283,14 +284,17 @@ function renderTasks() {
     line1.appendChild(nameSpan);
     line1.appendChild(prioritySpan);
 
-    // second line : explains
+    // second line : explains (only for active tasks)
     const line2 = document.createElement("p");
     line2.textContent = task.desc;
     line2.className =
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
-    taskFrame.appendChild(line2);
+    // show description only when task is NOT completed
+    if (!task.completed) {
+      taskFrame.appendChild(line2);
+    }
 
     (task.completed ? doneTasksContainer : tasksContainer).appendChild(
       taskFrame
@@ -345,47 +349,24 @@ addTaskBtn.addEventListener("click", () => {
 // initial render
 renderTasks();
 
-//dark mode
-// رادیوهای انتخاب تم
-const themeRadios = document.querySelectorAll('input[name="theme"]');
-
-// ست‌کردن حالت با توجه به انتخاب کاربر
-function applyTheme(mode) {
-  const root = document.documentElement;
-  const mq = window.matchMedia("(prefers-color-scheme: dark)");
-
-  // پاکسازی لیسنر قبلی
-  mq.onchange = null;
-
-  if (mode === "dark") {
-    root.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  } else if (mode === "light") {
-    root.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-  } else {
-    // system
-    localStorage.setItem("theme", "system");
-    const setBySystem = () =>
-      mq.matches ? root.classList.add("dark") : root.classList.remove("dark");
-    setBySystem();
-    mq.onchange = setBySystem;
-  }
-}
-
+//darkmode
 // مقدار اولیه رادیوها
 (function initThemeRadios() {
   const saved = localStorage.getItem("theme") || "system";
-  const radio = document.querySelector(`input[name="theme"][value="${saved}"]`);
-  if (radio) radio.checked = true;
-  // اگر چیزی ذخیره نبود، رادیوی system را تیک بزن
-  if (!radio) {
-    const sys = document.querySelector('input[name="theme"][value="system"]');
-    if (sys) sys.checked = true;
-  }
+  const check = (val) => {
+    const selectmode = document.querySelector(`input[name="theme"][value="${val}"]`);
+    if (selectmode) selectmode.checked = true;
+    return !!selectmode;
+  };
+  // try exact saved value
+  if (check(saved)) return;
+  // fallback: pick based on current/theme system preference
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const htmlDark = document.documentElement.classList.contains("dark");
+  check(htmlDark || prefersDark ? "dark" : "light");
 })();
 
 // تغییرات کاربر
-themeRadios.forEach((r) => {
-  r.addEventListener("change", () => applyTheme(r.value));
+themeRadios.forEach((radio) => {
+  radio.addEventListener("change", () => applyTheme(radio.value));
 });
