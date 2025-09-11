@@ -379,6 +379,7 @@ renderTasks();
     const selectmode = document.querySelector(
       `input[name="theme"][value="${val}"]`
     );
+
     if (selectmode) selectmode.checked = true;
     return !!selectmode;
   };
