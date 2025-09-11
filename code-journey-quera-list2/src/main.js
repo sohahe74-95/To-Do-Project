@@ -31,6 +31,9 @@ const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
 const doneTasksContainer = document.getElementById("done-tasks");
 const doneCount = document.getElementById("done-count");
+// تعداد تسک های در حال انجام مریم
+const todotasksContainer = document.getElementById("todo-tasks");
+const tastcount = document.getElementById("tast-count");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
@@ -75,12 +78,12 @@ function renderTasks() {
   tasksContainer.innerHTML = "";
   doneTasksContainer.innerHTML = "";
   if (tasks.length === 0) {
-    noTasksMsg.style.display = "block";
+    // noTasksMsg.style.display = "block";برای نمایش تعداد تسک (مریم)
     if (taskimgback) {
       taskimgback.style.display = "block";
     }
   } else {
-    noTasksMsg.style.display = "none";
+    // noTasksMsg.style.display = "none";
     if (taskimgback) {
       taskimgback.style.display = "none";
     }
@@ -106,6 +109,7 @@ function renderTasks() {
     const menubtn = document.createElement("button");
     menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
+    // butten edit and delet
     const menuFrame = document.createElement("div");
     menuFrame.className =
       "task-menu-frame absolute top-full left-0 mt-1 w-20  bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-1 gap-1";
@@ -299,9 +303,7 @@ function renderTasks() {
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
-
-    taskFrame.appendChild(line2);
-
+    // taskFrame.appendChild(line2);
     // show description only when task is NOT completed
     if (!task.completed) {
       taskFrame.appendChild(line2);
@@ -319,8 +321,17 @@ function renderTasks() {
         ? `${completedCount} تسک انجام شده`
         : "فعلاً هیچ تسکی انجام نشده";
   }
-}
 
+  // تعداد تسک های در حال انجام مریم
+  const progresstaskCount = tasks.filter((t) => !t.completed).length;
+  if (tastcount) {
+    tastcount.textContent =
+      progresstaskCount > 0
+        ? `${progresstaskCount} تسک را باید انجام دهید.`
+        : "تسکی برای امروز نداری";
+  }
+}
+// -----------------
 // add new tasks
 addTaskBtn.addEventListener("click", () => {
   const name = taskNameInput.value.trim();
@@ -365,7 +376,6 @@ renderTasks();
 (function initThemeRadios() {
   const saved = localStorage.getItem("theme") || "system";
   const check = (val) => {
-
     const selectmode = document.querySelector(
       `input[name="theme"][value="${val}"]`
     );
