@@ -38,8 +38,16 @@ const tastcount = document.getElementById("tast-count");
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
 });
-
 let selectedPriority = "";
+// cancel-butten m
+const taskform = document.getElementById("task-form");
+const cancelbutten = document.getElementById("cancel-butten");
+cancelbutten.addEventListener("click", () => {
+  taskform.classList.add("hidden");
+  taskNameInput.value = "";
+  taskDescInput.value = "";
+  selectedPriority = "";
+});
 
 // choose priority
 priorityButtons.forEach((btn) => {
@@ -63,6 +71,25 @@ priorityButtons.forEach((btn) => {
       span.classList.add("hidden");
     });
     tagbutton.classList.add("hidden");
+
+    // for delet butten priority new task
+    const crossBtn = document.createElement("button");
+    crossBtn.innerHTML = "✕";
+    crossBtn.className = "text-gray-500 hover:text-red-500 font-bold";
+    crossBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      priorityButtons.forEach((b) => {
+        b.classList.remove("hidden");
+      });
+      document
+        .querySelectorAll("#priority-button-frame span")
+        .forEach((span) => {
+          span.classList.remove("hidden");
+        });
+
+      crossBtn.remove();
+    });
+    btn.appendChild(crossBtn);
   });
 });
 
@@ -331,7 +358,7 @@ function renderTasks() {
         : "تسکی برای امروز نداری";
   }
 }
-// -----------------
+
 // add new tasks
 addTaskBtn.addEventListener("click", () => {
   const name = taskNameInput.value.trim();
