@@ -299,7 +299,9 @@ function renderTasks() {
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
+
     taskFrame.appendChild(line2);
+
     // show description only when task is NOT completed
     if (!task.completed) {
       taskFrame.appendChild(line2);
@@ -363,9 +365,11 @@ renderTasks();
 (function initThemeRadios() {
   const saved = localStorage.getItem("theme") || "system";
   const check = (val) => {
+
     const selectmode = document.querySelector(
       `input[name="theme"][value="${val}"]`
     );
+
     if (selectmode) selectmode.checked = true;
     return !!selectmode;
   };
