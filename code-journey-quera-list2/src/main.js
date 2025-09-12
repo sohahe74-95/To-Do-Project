@@ -363,8 +363,4 @@ addTaskBtn.addEventListener("click", () => {
 renderTasks();
 
 
-});
-
-
-
 
