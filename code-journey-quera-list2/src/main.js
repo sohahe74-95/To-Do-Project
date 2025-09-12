@@ -8,15 +8,87 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// document.addEventListener("DOMContentLoaded", () => {
+//   const hamburgerbtn = document.getElementById("hamburger-btn");
+//   const sidebar = document.getElementById("mobile-sidebar");
+//   hamburgerbtn.addEventListener("click", () => {
+//     sidebar.classList.toggle("hidden");
+//     hamburgerbtn.classList.toggle("hidden");
+//   });
+//   document.addEventListener("click", (e) => {
+//     if (!sidebar.contains(e.target) && !hamburgerbtn.contains(e.target)) {
+//       sidebar.classList.add("hidden");
+//       hamburgerbtn.classList.remove("hidden");
+//     }
+//   });
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
-  const hamburgerbtn = document.getElementById("hamburger-btn");
-  const sidebar = document.getElementById("mobile-sidebar");
-  hamburgerbtn.addEventListener("click", () => {
-    sidebar.classList.toggle("hidden");
-  });
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const closeBtn = document.getElementById("mobile-close-btn");
+  const queraList = document.getElementById("Quera-List");
+  const headerContent = document.getElementById("header-content");
+  const mobileSidebar = document.getElementById("mobile-sidebar");
+  const Header = document.getElementById("header");
+
+  let menuOpen = false;
+
+  function openMenu() {
+    mobileSidebar.classList.remove("hidden");
+    hamburgerBtn.classList.add("hidden");
+    // mobileSidebar.classList.add("full-screen");
+
+    // show multiple button
+    closeBtn.classList.remove("opacity-0", "pointer-events-none");
+    closeBtn.classList.add("opacity-100", "pointer-events-auto");
+
+    // queraList.classList.add("ml-auto", "mr-8", "text-right");
+    queraList.classList.remove("text-center");
+
+    // headerContent.classList.remove("justify-center");
+    // headerContent.classList.add("justify-start");
+    headerContent.classList.remove("justify-center");
+    headerContent.classList.add("justify-start", "gap-x-30");
+    queraList.classList.add("mr-2");
+
+    // Header.classList.remove("hidden");
+
+    menuOpen = true;
+  }
+
+  function closeMenu() {
+    mobileSidebar.classList.add("hidden");
+    hamburgerBtn.classList.remove("hidden");
+
+    // being hidden multiple button
+    closeBtn.classList.add("opacity-0", "pointer-events-none");
+    closeBtn.classList.remove("opacity-100", "pointer-events-auto");
+
+    queraList.classList.remove("ml-auto", "mr-8", "text-right");
+    queraList.classList.add("text-center");
+
+    // headerContent.classList.remove("justify-start");
+    // headerContent.classList.add("justify-center");
+    headerContent.classList.add("justify-center");
+    headerContent.classList.remove("justify-start", "gap-x-30");
+    queraList.classList.remove("mr-2");
+
+    // Header.classList.add("hidden");
+
+    menuOpen = false;
+  }
+
+  hamburgerBtn.addEventListener("click", openMenu);
+  closeBtn.addEventListener("click", closeMenu);
+
   document.addEventListener("click", (e) => {
-    if (!sidebar.contains(e.target) && !hamburgerbtn.contains(e.target)) {
-      sidebar.classList.add("hidden");
+    if (
+      menuOpen &&
+      !mobileSidebar.contains(e.target) &&
+      !hamburgerBtn.contains(e.target) &&
+      !closeBtn.contains(e.target)
+    ) {
+      closeMenu();
     }
   });
 });
@@ -31,12 +103,23 @@ const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
 const doneTasksContainer = document.getElementById("done-tasks");
 const doneCount = document.getElementById("done-count");
+// تعداد تسک های در حال انجام مریم
+const todotasksContainer = document.getElementById("todo-tasks");
+const tastcount = document.getElementById("tast-count");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
 });
-
 let selectedPriority = "";
+// cancel-butten m
+const taskform = document.getElementById("task-form");
+const cancelbutten = document.getElementById("cancel-butten");
+cancelbutten.addEventListener("click", () => {
+  taskform.classList.add("hidden");
+  taskNameInput.value = "";
+  taskDescInput.value = "";
+  selectedPriority = "";
+});
 
 // choose priority
 priorityButtons.forEach((btn) => {
@@ -60,6 +143,25 @@ priorityButtons.forEach((btn) => {
       span.classList.add("hidden");
     });
     tagbutton.classList.add("hidden");
+
+    // for delet butten priority new task
+    const crossBtn = document.createElement("button");
+    crossBtn.innerHTML = "✕";
+    crossBtn.className = "text-gray-500 hover:text-red-500 font-bold";
+    crossBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      priorityButtons.forEach((b) => {
+        b.classList.remove("hidden");
+      });
+      document
+        .querySelectorAll("#priority-button-frame span")
+        .forEach((span) => {
+          span.classList.remove("hidden");
+        });
+
+      crossBtn.remove();
+    });
+    btn.appendChild(crossBtn);
   });
 });
 
@@ -75,12 +177,12 @@ function renderTasks() {
   tasksContainer.innerHTML = "";
   doneTasksContainer.innerHTML = "";
   if (tasks.length === 0) {
-    noTasksMsg.style.display = "block";
+    // noTasksMsg.style.display = "block";برای نمایش تعداد تسک (مریم)
     if (taskimgback) {
       taskimgback.style.display = "block";
     }
   } else {
-    noTasksMsg.style.display = "none";
+    // noTasksMsg.style.display = "none";
     if (taskimgback) {
       taskimgback.style.display = "none";
     }
@@ -106,6 +208,7 @@ function renderTasks() {
     const menubtn = document.createElement("button");
     menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
+    // butten edit and delet
     const menuFrame = document.createElement("div");
     menuFrame.className =
       "task-menu-frame absolute top-full left-0 mt-1 w-20  bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-1 gap-1";
@@ -276,6 +379,7 @@ function renderTasks() {
       "ml-auto px-2 py-1 rounded " +
       (task.priority.trim() === "پایین"
 
+
         ? "bg-[#C3FFF1] text-[#11A483] dark:text-white dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
         ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-white dark:bg-[#302F2D]"
@@ -302,7 +406,9 @@ function renderTasks() {
 
     taskFrame.appendChild(line1);
 
+
     taskFrame.appendChild(line2);
+
 
     // show description only when task is NOT completed
     if (!task.completed) {
@@ -320,6 +426,15 @@ function renderTasks() {
       completedCount > 0
         ? `${completedCount} تسک انجام شده`
         : "فعلاً هیچ تسکی انجام نشده";
+  }
+
+  // تعداد تسک های در حال انجام مریم
+  const progresstaskCount = tasks.filter((t) => !t.completed).length;
+  if (tastcount) {
+    tastcount.textContent =
+      progresstaskCount > 0
+        ? `${progresstaskCount} تسک را باید انجام دهید.`
+        : "تسکی برای امروز نداری";
   }
 }
 
@@ -361,6 +476,5 @@ addTaskBtn.addEventListener("click", () => {
 
 // initial render
 renderTasks();
-
 
 
