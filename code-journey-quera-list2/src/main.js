@@ -93,6 +93,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//Activation DarkMode Soha
+document.addEventListener("DOMContentLoaded", () => {
+  const darkBtn = document.getElementById("dark-btn");
+  const lightBtn = document.getElementById("light-btn");
+  // console.log("darkBtn:", darkBtn);
+  // console.log("lightBtn:", lightBtn);
+
+  darkBtn.addEventListener("click", () => {
+    document.documentElement.classList.add("dark");
+    darkBtn.classList.remove("shadow");
+    lightBtn.classList.add("shadow");
+  });
+
+  lightBtn.addEventListener("click", () => {
+    document.documentElement.classList.remove("dark");
+    lightBtn.classList.remove("shadow");
+    darkBtn.classList.add("shadow");
+  });
+});
+
 const taskNameInput = document.getElementById("task-name");
 const taskDescInput = document.getElementById("task-desc");
 const addTaskBtn = document.getElementById("add-task-btn");
@@ -378,13 +398,10 @@ function renderTasks() {
     prioritySpan.className =
       "ml-auto px-2 py-1 rounded " +
       (task.priority.trim() === "پایین"
-
-
         ? "bg-[#C3FFF1] text-[#11A483] dark:text-white dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
         ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-white dark:bg-[#302F2D]"
         : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-white");
-
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
@@ -406,9 +423,7 @@ function renderTasks() {
 
     taskFrame.appendChild(line1);
 
-
     taskFrame.appendChild(line2);
-
 
     // show description only when task is NOT completed
     if (!task.completed) {
@@ -476,5 +491,3 @@ addTaskBtn.addEventListener("click", () => {
 
 // initial render
 renderTasks();
-
-
