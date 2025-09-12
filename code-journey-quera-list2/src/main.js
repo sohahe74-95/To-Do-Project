@@ -21,6 +21,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//Activation DarkMode Soha
+document.addEventListener("DOMContentLoaded", () => {
+  const darkBtn = document.getElementById("dark-btn");
+  const lightBtn = document.getElementById("light-btn");
+  // console.log("darkBtn:", darkBtn);
+  // console.log("lightBtn:", lightBtn);
+
+  darkBtn.addEventListener("click", () => {
+    document.documentElement.classList.add("dark");
+    darkBtn.classList.remove("shadow");
+    lightBtn.classList.add("shadow");
+  });
+
+  lightBtn.addEventListener("click", () => {
+    document.documentElement.classList.remove("dark");
+    lightBtn.classList.remove("shadow");
+    darkBtn.classList.add("shadow");
+  });
+});
+
 const taskNameInput = document.getElementById("task-name");
 const taskDescInput = document.getElementById("task-desc");
 const addTaskBtn = document.getElementById("add-task-btn");
@@ -340,22 +360,19 @@ function renderTasks() {
     prioritySpan.className =
       "ml-auto px-2 py-1 rounded " +
       (task.priority.trim() === "پایین"
-
-
         ? "bg-[#C3FFF1] text-[#11A483] dark:text-white dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
         ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-white dark:bg-[#302F2D]"
         : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-white");
 
 
-    // comment maryam
-    // const priorityOrder = ["بالا", "متوسط", "پایین"];
-    // tasks.sort((a, b) => {
-    //   return (
-    //     priorityOrder.indexOf(a.priority.trim()) -
-    //     priorityOrder.indexOf(b.priority.trim())
-    //   );
-    // });
+    const priorityOrder = ["بالا", "متوسط", "پایین"];
+    tasks.sort((a, b) => {
+      return (
+        priorityOrder.indexOf(a.priority.trim()) -
+        priorityOrder.indexOf(b.priority.trim())
+      );
+    });
 
 
     line1.appendChild(checkbox);
@@ -369,6 +386,7 @@ function renderTasks() {
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
+
     taskFrame.appendChild(line2);
 
     // show description only when task is NOT completed
@@ -441,23 +459,4 @@ addTaskBtn.addEventListener("click", () => {
 
 // initial render
 renderTasks();
-
-
-
-    if (selectmode) selectmode.checked = true;
-    return !!selectmode;
-  };
-  // try exact saved value
-  if (check(saved)) return;
-  // fallback: pick based on current/theme system preference
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const htmlDark = document.documentElement.classList.contains("dark");
-  check(htmlDark || prefersDark ? "dark" : "light");
-})();
-//
-const themeRadios = document.querySelectorAll('input[name="theme"]');
-// تغییرات کاربر
-themeRadios.forEach((radio) => {
-  radio.addEventListener("change", () => applyTheme(radio.value));
-});
 
