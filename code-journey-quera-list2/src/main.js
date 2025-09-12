@@ -267,10 +267,10 @@ function renderTasks() {
     prioritySpan.className =
       "ml-auto px-2 py-1 rounded text-white " +
       (task.priority.trim() === "پایین"
-        ? "bg-[#C3FFF1] text-[#11A483] dark:text:[#ffffff] dark:bg-[#233332]"
+        ? "bg-[#C3FFF1] text-[#11A483] dark:text-[#ffffff] dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
-        ? "bg-[#FFEFD6] text-[#FFAF37] dark:text:[#ffffff] dark:bg-[#302F2D]"
-        : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#fffff]");
+        ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-[#ffffff] dark:bg-[#302F2D]"
+        : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#ffffff]");
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
@@ -350,23 +350,60 @@ addTaskBtn.addEventListener("click", () => {
 renderTasks();
 
 //darkmode
-// مقدار اولیه رادیوها
-(function initThemeRadios() {
-  const saved = localStorage.getItem("theme") || "system";
-  const check = (val) => {
-    const selectmode = document.querySelector(`input[name="theme"][value="${val}"]`);
-    if (selectmode) selectmode.checked = true;
-    return !!selectmode;
-  };
-  // try exact saved value
-  if (check(saved)) return;
-  // fallback: pick based on current/theme system preference
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const htmlDark = document.documentElement.classList.contains("dark");
-  check(htmlDark || prefersDark ? "dark" : "light");
-})();
+document.addEventListener("DOMContentLoaded", () => {
+  const darkBtn  = document.getElementById("dark-btn");
+  const lightBtn = document.getElementById("light-btn");
+  if (!darkBtn || !lightBtn) {
+    console.warn("Theme buttons not found in DOM.");
+    return;
+  }
 
-// تغییرات کاربر
-themeRadios.forEach((radio) => {
-  radio.addEventListener("change", () => applyTheme(radio.value));
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function highlight(mode) {
+    darkBtn.classList.remove("bg-gray-800","text-white");
+    lightBtn.classList.remove("bg-yellow-400");
+    if (mode === "dark") {
+      darkBtn.classList.add("bg-gray-800","text-white");
+    } else {
+      lightBtn.classList.add("bg-yellow-400");
+    }
+  }
+
+  function setTheme(mode) {
+    console.log("[theme] setTheme:", mode);
+    if (mode === "system") {
+      const isDark = mq.matches;
+      document.documentElement.classList.toggle("dark", isDark);
+      localStorage.setItem("theme", "system");
+      highlight(isDark ? "dark" : "light");
+      return;
+    }
+    const isDark = mode === "dark";
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", mode);
+    highlight(mode);
+  }
+
+  (function init() {
+    const saved = localStorage.getItem("theme"); // 'dark' | 'light' | 'system' | null
+    console.log("[theme] saved:", saved);
+    if (!saved) {
+      setTheme(mq.matches ? "dark" : "light");
+    } else if (saved === "system") {
+      setTheme("system");
+    } else {
+      setTheme(saved);
+    }
+    mq.addEventListener?.("change", () => {
+      if (localStorage.getItem("theme") === "system") setTheme("system");
+    });
+  })();
+
+  darkBtn.addEventListener("click",  () => setTheme("dark"));
+  lightBtn.addEventListener("click", () => setTheme("light"));
 });
+
+
+
+
