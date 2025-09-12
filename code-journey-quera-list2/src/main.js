@@ -1,94 +1,22 @@
 const taskimgback = document.getElementById("task-back-img");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const addTaskBtn = document.querySelector(".add-task-button");
+  const addTaskButton = document.querySelector(".add-task-button");
   const taskform = document.getElementById("task-form");
-  addTaskBtn.addEventListener("click", () => {
+  addTaskButton.addEventListener("click", () => {
     taskform.classList.toggle("hidden");
   });
 });
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   const hamburgerbtn = document.getElementById("hamburger-btn");
-//   const sidebar = document.getElementById("mobile-sidebar");
-//   hamburgerbtn.addEventListener("click", () => {
-//     sidebar.classList.toggle("hidden");
-//     hamburgerbtn.classList.toggle("hidden");
-//   });
-//   document.addEventListener("click", (e) => {
-//     if (!sidebar.contains(e.target) && !hamburgerbtn.contains(e.target)) {
-//       sidebar.classList.add("hidden");
-//       hamburgerbtn.classList.remove("hidden");
-//     }
-//   });
-// });
-
 document.addEventListener("DOMContentLoaded", () => {
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const closeBtn = document.getElementById("mobile-close-btn");
-  const queraList = document.getElementById("Quera-List");
-  const headerContent = document.getElementById("header-content");
-  const mobileSidebar = document.getElementById("mobile-sidebar");
-  const Header = document.getElementById("header");
-
-  let menuOpen = false;
-
-  function openMenu() {
-    mobileSidebar.classList.remove("hidden");
-    hamburgerBtn.classList.add("hidden");
-    // mobileSidebar.classList.add("full-screen");
-
-    // show multiple button
-    closeBtn.classList.remove("opacity-0", "pointer-events-none");
-    closeBtn.classList.add("opacity-100", "pointer-events-auto");
-
-    // queraList.classList.add("ml-auto", "mr-8", "text-right");
-    queraList.classList.remove("text-center");
-
-    // headerContent.classList.remove("justify-center");
-    // headerContent.classList.add("justify-start");
-    headerContent.classList.remove("justify-center");
-    headerContent.classList.add("justify-start", "gap-x-30");
-    queraList.classList.add("mr-2");
-
-    // Header.classList.remove("hidden");
-
-    menuOpen = true;
-  }
-
-  function closeMenu() {
-    mobileSidebar.classList.add("hidden");
-    hamburgerBtn.classList.remove("hidden");
-
-    // being hidden multiple button
-    closeBtn.classList.add("opacity-0", "pointer-events-none");
-    closeBtn.classList.remove("opacity-100", "pointer-events-auto");
-
-    queraList.classList.remove("ml-auto", "mr-8", "text-right");
-    queraList.classList.add("text-center");
-
-    // headerContent.classList.remove("justify-start");
-    // headerContent.classList.add("justify-center");
-    headerContent.classList.add("justify-center");
-    headerContent.classList.remove("justify-start", "gap-x-30");
-    queraList.classList.remove("mr-2");
-
-    // Header.classList.add("hidden");
-
-    menuOpen = false;
-  }
-
-  hamburgerBtn.addEventListener("click", openMenu);
-  closeBtn.addEventListener("click", closeMenu);
-
+  const hamburgerbtn = document.getElementById("hamburger-btn");
+  const sidebar = document.getElementById("mobile-sidebar");
+  hamburgerbtn.addEventListener("click", () => {
+    sidebar.classList.toggle("hidden");
+  });
   document.addEventListener("click", (e) => {
-    if (
-      menuOpen &&
-      !mobileSidebar.contains(e.target) &&
-      !hamburgerBtn.contains(e.target) &&
-      !closeBtn.contains(e.target)
-    ) {
-      closeMenu();
+    if (!sidebar.contains(e.target) && !hamburgerbtn.contains(e.target)) {
+      sidebar.classList.add("hidden");
     }
   });
 });
@@ -119,6 +47,17 @@ cancelbutten.addEventListener("click", () => {
   taskNameInput.value = "";
   taskDescInput.value = "";
   selectedPriority = "";
+
+  priorityButtons.forEach((b) => {
+    b.classList.remove("hidden");
+    const eCrossBtn = b.querySelector("button");
+    if (eCrossBtn) eCrossBtn.remove();
+  });
+  document.querySelectorAll("#priority-button-frame span").forEach((span) => {
+    span.classList.remove("hidden");
+  });
+  tagbutton.classList.remove("hidden");
+  prioritybuttonframe.classList.add("hidden");
 });
 
 // choose priority
@@ -129,6 +68,11 @@ priorityButtons.forEach((btn) => {
     priorityButtons.forEach((b) => {
       b.classList.remove("hidden");
       b.style.removeProperty("display");
+      // حذف گزینه ضربدر
+      const eCrossBtn = b.querySelector(".priority-cross-btn");
+      if (eCrossBtn) {
+        eCrossBtn.remove();
+      }
     });
     //for display line between buttons
     document.querySelectorAll("#priority-button-frame span").forEach((span) => {
@@ -144,14 +88,25 @@ priorityButtons.forEach((btn) => {
     });
     tagbutton.classList.add("hidden");
 
-    // for delet butten priority new task
+    //maryam  for delet butten priority new task
+    // حذف ضربدر قبلی (اگر وجود دارد)
+    const eCrossBtn = btn.querySelector("button");
+    if (eCrossBtn) {
+      eCrossBtn.remove();
+    }
+    // ایجاد ضربدر در الویت انتخاب شده
     const crossBtn = document.createElement("button");
     crossBtn.innerHTML = "✕";
-    crossBtn.className = "text-gray-500 hover:text-red-500 font-bold";
+    crossBtn.className =
+      "priority-cross-btn text-gray-500 hover:text-red-500 font-bold";
     crossBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       priorityButtons.forEach((b) => {
         b.classList.remove("hidden");
+        const eCrossBtn = b.querySelector(".priority-cross-btn");
+        if (eCrossBtn) {
+          eCrossBtn.remove();
+        }
       });
       document
         .querySelectorAll("#priority-button-frame span")
@@ -159,7 +114,7 @@ priorityButtons.forEach((btn) => {
           span.classList.remove("hidden");
         });
 
-      crossBtn.remove();
+      selectedPriority = "";
     });
     btn.appendChild(crossBtn);
   });
@@ -188,6 +143,15 @@ function renderTasks() {
     }
   }
 
+  // maryam
+  const priorityOrder = ["بالا", "متوسط", "پایین"];
+  tasks.sort((a, b) => {
+    return (
+      priorityOrder.indexOf(a.priority.trim()) -
+      priorityOrder.indexOf(b.priority.trim())
+    );
+  });
+  // maryam
   tasks.forEach((task, index) => {
     let borderColorClass = "";
     if (task.priority.trim() === "پایین") {
@@ -210,8 +174,9 @@ function renderTasks() {
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
     // butten edit and delet
     const menuFrame = document.createElement("div");
-    menuFrame.className =
-      "task-menu-frame absolute top-full left-0 mt-1 w-20  bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-1 gap-1";
+    menuFrame.className = `task-menu-frame  absolute left-0 mt-1 ${
+      !task.completed ? `w-20` : `w-10`
+    }   bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-center items-center p-1 gap-3`;
 
     menuFrame.innerHTML = `
     ${
@@ -223,7 +188,7 @@ function renderTasks() {
         : ""
     }
       <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
-        <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-5 h-5"/>
+        <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-6 h-6"/>
       </button>
     `;
     menubtn.addEventListener("click", () =>
@@ -232,8 +197,6 @@ function renderTasks() {
     menucontainer.appendChild(menubtn);
     menucontainer.appendChild(menuFrame);
     taskFrame.appendChild(menucontainer);
-
-    //start code maryam
     // delete task
     const deletetask = menuFrame.querySelector(".delete-btn");
     deletetask.addEventListener("click", () => {
@@ -350,7 +313,6 @@ function renderTasks() {
         });
       });
     }
-    // end code maryam
 
     // first line : checkbox + priority + name
     const line1 = document.createElement("div");
@@ -386,13 +348,15 @@ function renderTasks() {
         : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-white");
 
 
-    const priorityOrder = ["بالا", "متوسط", "پایین"];
-    tasks.sort((a, b) => {
-      return (
-        priorityOrder.indexOf(a.priority.trim()) -
-        priorityOrder.indexOf(b.priority.trim())
-      );
-    });
+    // comment maryam
+    // const priorityOrder = ["بالا", "متوسط", "پایین"];
+    // tasks.sort((a, b) => {
+    //   return (
+    //     priorityOrder.indexOf(a.priority.trim()) -
+    //     priorityOrder.indexOf(b.priority.trim())
+    //   );
+    // });
+
 
     line1.appendChild(checkbox);
     line1.appendChild(nameSpan);
@@ -405,10 +369,7 @@ function renderTasks() {
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
-
-
     taskFrame.appendChild(line2);
-
 
     // show description only when task is NOT completed
     if (!task.completed) {
@@ -468,6 +429,10 @@ addTaskBtn.addEventListener("click", () => {
     b.classList.remove("ring-2", "ring-blue-500", "hidden");
 
     b.style.removeProperty("display");
+
+    // حذف ضربدر الویت تسک
+    const eCrossBtn = b.querySelector(".priority-cross-btn");
+    if (eCrossBtn) eCrossBtn.remove();
   });
 
   prioritybuttonframe.classList.add("hidden");
@@ -477,4 +442,22 @@ addTaskBtn.addEventListener("click", () => {
 // initial render
 renderTasks();
 
+
+
+    if (selectmode) selectmode.checked = true;
+    return !!selectmode;
+  };
+  // try exact saved value
+  if (check(saved)) return;
+  // fallback: pick based on current/theme system preference
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const htmlDark = document.documentElement.classList.contains("dark");
+  check(htmlDark || prefersDark ? "dark" : "light");
+})();
+//
+const themeRadios = document.querySelectorAll('input[name="theme"]');
+// تغییرات کاربر
+themeRadios.forEach((radio) => {
+  radio.addEventListener("change", () => applyTheme(radio.value));
+});
 
