@@ -4,12 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>کوئرا لیست</title>
-    <!-- 2) کانفیگ Tailwind v4: اینجا بنویس، نه با tailwind.config -->
-    <!-- <script type="tailwind-config">
-      export default {
-        darkMode: "class",
-      }
-    </script> -->
     <!--Activation DarkMode Soha-->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -261,12 +255,14 @@
         </button>
       </div> -->
 
-      <div class="relative w-[209px] h-[42px] mt-15 mx-auto mb-5">
+      <div class="relative w-[209px] h-[42px] mt-15 mx-auto mb-5 bg-[#F7F7F7]">
         <button
           id="dark-btn"
-          class="w-full h-full bg-[#F7F7F7] rounded-md text-black text-sm flex items-center justify-start px-4 pr-29"
+          class="w-full h-full bg-[#F7F7F7] rounded-md text-[#808080] text-sm flex items-center justify-start px-4 pr-29"
         >
-          <span class="flex items-center gap-2">
+          <span
+            class="flex items-center gap-2 text-[#808080] dark:bg-[#002247] dark:text-[#ffffff]"
+          >
             <img
               src="./src/assets/icons/moon.svg"
               alt="خاموش"
@@ -278,7 +274,7 @@
 
         <button
           id="light-btn"
-          class="absolute top-[3px] bottom-[3px] right-0.5 w-1/2 bg-white text-black text-sm rounded-md shadow flex items-center justify-center gap-2"
+          class="absolute top-[3px] bottom-[3px] right-0.5 w-1/2 bg-white dark:bg[#0C1B31] dark:text-[#7A7A7A] text-[#525252] text-sm rounded-md shadow flex items-center justify-center gap-2"
         >
           <img
             src="./src/assets/icons/sun.svg"
