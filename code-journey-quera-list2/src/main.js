@@ -108,12 +108,17 @@ function renderTasks() {
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
     const menuFrame = document.createElement("div");
     menuFrame.className =
-      "task-menu-frame absolute top-full left-0 mt-1 w-36 bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-2 gap-2";
+      "task-menu-frame absolute top-full left-0 mt-1 w-20  bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-1 gap-1";
 
     menuFrame.innerHTML = `
+    ${
+      !task.completed
+        ? `
       <button class="edit-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
         <img src="./src/assets/images/Group.png" alt="edit" class="w-5 h-5"/>
-      </button>
+      </button>`
+        : ""
+    }
       <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
         <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-5 h-5"/>
       </button>
@@ -136,109 +141,112 @@ function renderTasks() {
 
     // edit task
     const editBtn = menuFrame.querySelector(".edit-btn");
-    editBtn.addEventListener("click", () => {
-      if (taskFrame.querySelector(".edit-form-inline")) return;
-      const editForm = document.createElement("div");
-      editForm.className =
-        "edit-form-inline flex flex-col gap-2 mt-2 bg-gray-50 p-3 rounded border";
+    if (editBtn) {
+      editBtn.addEventListener("click", () => {
+        if (taskFrame.querySelector(".edit-form-inline")) return;
+        const editForm = document.createElement("div");
+        editForm.className =
+          "edit-form-inline flex flex-col gap-1 mt-1 bg-gray-50 p-3 rounded border border-gray-300 dark:border-slate-900";
 
-      const editname = document.createElement("input");
-      editname.type = "text";
-      editname.value = task.name;
-      editname.className =
-        "font-semibold  p-1 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm";
+        const editname = document.createElement("input");
+        editname.type = "text";
+        editname.value = task.name;
+        editname.className =
+          "font-semibold  p-1 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm";
 
-      const descedit = document.createElement("textarea");
-      descedit.value = task.desc;
-      descedit.className =
-        "text-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none";
+        const descedit = document.createElement("textarea");
+        descedit.value = task.desc;
+        descedit.className =
+          "text-gray-700 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm resize-none";
 
-      // الویت
-      let currentPriority = task.priority;
-      const priorityWrapper = document.createElement("div");
-      priorityWrapper.className = "flex items-center gap-2";
-      const editpriority = document.createElement("span");
-      editpriority.textContent = currentPriority;
-      editpriority.className =
-        "px-2 py-1 rounded text-sm " +
-        (currentPriority === "پایین"
-          ? "bg-[#C3FFF1] text-[#11A483]"
-          : currentPriority === "متوسط"
-          ? "bg-[#FFEFD6] text-[#FFAF37]"
-          : "bg-[#FFE2DB] text-[#FF5F37]");
-
-      const removePriorityBtn = document.createElement("button");
-      removePriorityBtn.innerHTML = "✕";
-      removePriorityBtn.className =
-        "text-gray-500 hover:text-red-500 text-xl font-bold";
-
-      priorityWrapper.appendChild(editpriority);
-      priorityWrapper.appendChild(removePriorityBtn);
-
-      const priorityOptionsWrapper = document.createElement("div");
-      priorityOptionsWrapper.className = "flex gap-3 hidden";
-
-      ["پایین", "متوسط", "بالا"].forEach((p) => {
-        const btn = document.createElement("button");
-        btn.textContent = p;
-        btn.className =
-          "priority-option px-3 py-1 rounded text-sm border " +
-          (p === "پایین"
+        // الویت
+        let currentPriority = task.priority;
+        const priorityWrapper = document.createElement("div");
+        priorityWrapper.className = "flex items-center gap-2";
+        const editpriority = document.createElement("span");
+        editpriority.textContent = currentPriority;
+        editpriority.className =
+          "px-2 py-1 rounded text-sm " +
+          (currentPriority === "پایین"
             ? "bg-[#C3FFF1] text-[#11A483]"
-            : p === "متوسط"
+            : currentPriority === "متوسط"
             ? "bg-[#FFEFD6] text-[#FFAF37]"
             : "bg-[#FFE2DB] text-[#FF5F37]");
 
-        btn.addEventListener("click", () => {
-          currentPriority = p;
-          editpriority.textContent = p;
-          editpriority.className =
-            "px-2 py-1 rounded text-sm " +
+        const removePriorityBtn = document.createElement("button");
+        removePriorityBtn.innerHTML = "✕";
+        removePriorityBtn.className =
+          "text-gray-500 hover:text-red-500 text-xl font-bold";
+
+        priorityWrapper.appendChild(editpriority);
+        priorityWrapper.appendChild(removePriorityBtn);
+
+        const priorityOptionsWrapper = document.createElement("div");
+        priorityOptionsWrapper.className = "flex gap-3 hidden";
+
+        ["پایین", "متوسط", "بالا"].forEach((p) => {
+          const btn = document.createElement("button");
+          btn.textContent = p;
+          btn.className =
+            "priority-option px-3 py-1 rounded text-sm border " +
             (p === "پایین"
               ? "bg-[#C3FFF1] text-[#11A483]"
               : p === "متوسط"
               ? "bg-[#FFEFD6] text-[#FFAF37]"
               : "bg-[#FFE2DB] text-[#FF5F37]");
-          priorityOptionsWrapper.classList.add("hidden");
-          priorityWrapper.classList.remove("hidden");
+
+          btn.addEventListener("click", () => {
+            currentPriority = p;
+            editpriority.textContent = p;
+            editpriority.className =
+              "px-2 py-1 rounded text-sm " +
+              (p === "پایین"
+                ? "bg-[#C3FFF1] text-[#11A483]"
+                : p === "متوسط"
+                ? "bg-[#FFEFD6] text-[#FFAF37]"
+                : "bg-[#FFE2DB] text-[#FF5F37]");
+            priorityOptionsWrapper.classList.add("hidden");
+            priorityWrapper.classList.remove("hidden");
+          });
+
+          priorityOptionsWrapper.appendChild(btn);
         });
 
-        priorityOptionsWrapper.appendChild(btn);
+        removePriorityBtn.addEventListener("click", () => {
+          priorityWrapper.classList.add("hidden");
+          priorityOptionsWrapper.classList.remove("hidden");
+        });
+
+        const hr = document.createElement("hr");
+        hr.className = "border-gray-400";
+
+        const editBtnform = document.createElement("button");
+        editBtnform.textContent = "ویرایش تسک";
+        editBtnform.className =
+          "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-fit self-end text-sm";
+
+        editForm.appendChild(editname);
+        editForm.appendChild(descedit);
+        editForm.appendChild(priorityWrapper);
+        editForm.appendChild(priorityOptionsWrapper);
+        editForm.appendChild(hr);
+        editForm.appendChild(editBtnform);
+
+        taskFrame.appendChild(editForm);
+
+        editBtnform.addEventListener("click", () => {
+          const newName = editname.value.trim();
+          const newDesc = descedit.value.trim();
+
+          tasks[index].name = newName;
+          tasks[index].desc = newDesc;
+          tasks[index].priority = currentPriority;
+
+          saveTasks();
+          renderTasks();
+        });
       });
-
-      removePriorityBtn.addEventListener("click", () => {
-        priorityWrapper.classList.add("hidden");
-        priorityOptionsWrapper.classList.remove("hidden");
-      });
-
-      const hr = document.createElement("hr");
-
-      const editBtnform = document.createElement("button");
-      editBtnform.textContent = "ویرایش تسک";
-      editBtnform.className =
-        "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-fit self-end text-sm";
-
-      editForm.appendChild(editname);
-      editForm.appendChild(descedit);
-      editForm.appendChild(priorityWrapper);
-      editForm.appendChild(priorityOptionsWrapper);
-      editForm.appendChild(hr);
-      editForm.appendChild(editBtnform);
-
-      taskFrame.appendChild(editForm);
-
-      editBtnform.addEventListener("click", () => {
-        const newName = editname.value.trim();
-        const newDesc = descedit.value.trim();
-
-        tasks[index].name = newName;
-        tasks[index].desc = newDesc;
-        tasks[index].priority = currentPriority;
-
-        saveTasks();
-        renderTasks();
-      });
-    });
+    }
     // end code maryam
 
     // first line : checkbox + priority + name
@@ -260,17 +268,19 @@ function renderTasks() {
     nameSpan.textContent = task.name;
     nameSpan.className =
       "font-semibold text-slate-800 dark:text-slate-100" +
-      (task.completed ? " line-through text-gray-400 dark:text-[#ffffff]" : ""); //یرای تسک انجام شده
+      (task.completed ? " line-through text-gray-400 dark:text-white" : ""); //یرای تسک انجام شده
 
     const prioritySpan = document.createElement("span");
     prioritySpan.textContent = task.priority;
     prioritySpan.className =
-      "ml-auto px-2 py-1 rounded text-white " +
+      "ml-auto px-2 py-1 rounded " +
       (task.priority.trim() === "پایین"
-        ? "bg-[#C3FFF1] text-[#11A483] dark:text-[#ffffff] dark:bg-[#233332]"
+
+        ? "bg-[#C3FFF1] text-[#11A483] dark:text-white dark:bg-[#233332]"
         : task.priority.trim() === "متوسط"
-        ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-[#ffffff] dark:bg-[#302F2D]"
-        : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-[#ffffff]");
+        ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-white dark:bg-[#302F2D]"
+        : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-white");
+
 
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
@@ -291,6 +301,9 @@ function renderTasks() {
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
+
+    taskFrame.appendChild(line2);
+
     // show description only when task is NOT completed
     if (!task.completed) {
       taskFrame.appendChild(line2);
@@ -349,59 +362,7 @@ addTaskBtn.addEventListener("click", () => {
 // initial render
 renderTasks();
 
-//darkmode
-document.addEventListener("DOMContentLoaded", () => {
-  const darkBtn  = document.getElementById("dark-btn");
-  const lightBtn = document.getElementById("light-btn");
-  if (!darkBtn || !lightBtn) {
-    console.warn("Theme buttons not found in DOM.");
-    return;
-  }
 
-  const mq = window.matchMedia("(prefers-color-scheme: dark)");
-
-  function highlight(mode) {
-    darkBtn.classList.remove("bg-gray-800","text-white");
-    lightBtn.classList.remove("bg-yellow-400");
-    if (mode === "dark") {
-      darkBtn.classList.add("bg-gray-800","text-white");
-    } else {
-      lightBtn.classList.add("bg-yellow-400");
-    }
-  }
-
-  function setTheme(mode) {
-    console.log("[theme] setTheme:", mode);
-    if (mode === "system") {
-      const isDark = mq.matches;
-      document.documentElement.classList.toggle("dark", isDark);
-      localStorage.setItem("theme", "system");
-      highlight(isDark ? "dark" : "light");
-      return;
-    }
-    const isDark = mode === "dark";
-    document.documentElement.classList.toggle("dark", isDark);
-    localStorage.setItem("theme", mode);
-    highlight(mode);
-  }
-
-  (function init() {
-    const saved = localStorage.getItem("theme"); // 'dark' | 'light' | 'system' | null
-    console.log("[theme] saved:", saved);
-    if (!saved) {
-      setTheme(mq.matches ? "dark" : "light");
-    } else if (saved === "system") {
-      setTheme("system");
-    } else {
-      setTheme(saved);
-    }
-    mq.addEventListener?.("change", () => {
-      if (localStorage.getItem("theme") === "system") setTheme("system");
-    });
-  })();
-
-  darkBtn.addEventListener("click",  () => setTheme("dark"));
-  lightBtn.addEventListener("click", () => setTheme("light"));
 });
 
 
