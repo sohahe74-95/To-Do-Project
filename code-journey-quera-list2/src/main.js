@@ -1,9 +1,9 @@
 const taskimgback = document.getElementById("task-back-img");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const addTaskBtn = document.querySelector(".add-task-button");
+  const addTaskButton = document.querySelector(".add-task-button");
   const taskform = document.getElementById("task-form");
-  addTaskBtn.addEventListener("click", () => {
+  addTaskButton.addEventListener("click", () => {
     taskform.classList.toggle("hidden");
   });
 });
@@ -21,6 +21,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//Activation DarkMode Soha
+document.addEventListener("DOMContentLoaded", () => {
+  const darkBtn = document.getElementById("dark-btn");
+  const lightBtn = document.getElementById("light-btn");
+  // console.log("darkBtn:", darkBtn);
+  // console.log("lightBtn:", lightBtn);
+
+  darkBtn.addEventListener("click", () => {
+    document.documentElement.classList.add("dark");
+    darkBtn.classList.remove("shadow");
+    lightBtn.classList.add("shadow");
+  });
+
+  lightBtn.addEventListener("click", () => {
+    document.documentElement.classList.remove("dark");
+    lightBtn.classList.remove("shadow");
+    
+  });
+});
+
 const taskNameInput = document.getElementById("task-name");
 const taskDescInput = document.getElementById("task-desc");
 const addTaskBtn = document.getElementById("add-task-btn");
@@ -31,12 +51,34 @@ const tagbutton = document.getElementById("tag-button");
 const prioritybuttonframe = document.getElementById("priority-button-frame");
 const doneTasksContainer = document.getElementById("done-tasks");
 const doneCount = document.getElementById("done-count");
+// تعداد تسک های در حال انجام مریم
+const todotasksContainer = document.getElementById("todo-tasks");
+const tastcount = document.getElementById("tast-count");
 //click on tags and show priorities
 tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
 });
-
 let selectedPriority = "";
+// cancel-butten m
+const taskform = document.getElementById("task-form");
+const cancelbutten = document.getElementById("cancel-butten");
+cancelbutten.addEventListener("click", () => {
+  taskform.classList.add("hidden");
+  taskNameInput.value = "";
+  taskDescInput.value = "";
+  selectedPriority = "";
+
+  priorityButtons.forEach((b) => {
+    b.classList.remove("hidden");
+    const eCrossBtn = b.querySelector("button");
+    if (eCrossBtn) eCrossBtn.remove();
+  });
+  document.querySelectorAll("#priority-button-frame span").forEach((span) => {
+    span.classList.remove("hidden");
+  });
+  tagbutton.classList.remove("hidden");
+  prioritybuttonframe.classList.add("hidden");
+});
 
 // choose priority
 priorityButtons.forEach((btn) => {
@@ -46,6 +88,11 @@ priorityButtons.forEach((btn) => {
     priorityButtons.forEach((b) => {
       b.classList.remove("hidden");
       b.style.removeProperty("display");
+      // حذف گزینه ضربدر
+      const eCrossBtn = b.querySelector(".priority-cross-btn");
+      if (eCrossBtn) {
+        eCrossBtn.remove();
+      }
     });
     //for display line between buttons
     document.querySelectorAll("#priority-button-frame span").forEach((span) => {
@@ -60,6 +107,36 @@ priorityButtons.forEach((btn) => {
       span.classList.add("hidden");
     });
     tagbutton.classList.add("hidden");
+
+    //maryam  for delet butten priority new task
+    // حذف ضربدر قبلی (اگر وجود دارد)
+    const eCrossBtn = btn.querySelector("button");
+    if (eCrossBtn) {
+      eCrossBtn.remove();
+    }
+    // ایجاد ضربدر در الویت انتخاب شده
+    const crossBtn = document.createElement("button");
+    crossBtn.innerHTML = "✕";
+    crossBtn.className =
+      "priority-cross-btn text-gray-500 hover:text-red-500 font-bold";
+    crossBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      priorityButtons.forEach((b) => {
+        b.classList.remove("hidden");
+        const eCrossBtn = b.querySelector(".priority-cross-btn");
+        if (eCrossBtn) {
+          eCrossBtn.remove();
+        }
+      });
+      document
+        .querySelectorAll("#priority-button-frame span")
+        .forEach((span) => {
+          span.classList.remove("hidden");
+        });
+
+      selectedPriority = "";
+    });
+    btn.appendChild(crossBtn);
   });
 });
 
@@ -75,17 +152,26 @@ function renderTasks() {
   tasksContainer.innerHTML = "";
   doneTasksContainer.innerHTML = "";
   if (tasks.length === 0) {
-    noTasksMsg.style.display = "block";
+    // noTasksMsg.style.display = "block";برای نمایش تعداد تسک (مریم)
     if (taskimgback) {
       taskimgback.style.display = "block";
     }
   } else {
-    noTasksMsg.style.display = "none";
+    // noTasksMsg.style.display = "none";
     if (taskimgback) {
       taskimgback.style.display = "none";
     }
   }
 
+  // maryam
+  const priorityOrder = ["بالا", "متوسط", "پایین"];
+  tasks.sort((a, b) => {
+    return (
+      priorityOrder.indexOf(a.priority.trim()) -
+      priorityOrder.indexOf(b.priority.trim())
+    );
+  });
+  // maryam
   tasks.forEach((task, index) => {
     let borderColorClass = "";
     if (task.priority.trim() === "پایین") {
@@ -106,9 +192,11 @@ function renderTasks() {
     const menubtn = document.createElement("button");
     menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
+    // butten edit and delet
     const menuFrame = document.createElement("div");
-    menuFrame.className =
-      "task-menu-frame absolute top-full left-0 mt-1 w-20  bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-between items-center p-1 gap-1";
+    menuFrame.className = `task-menu-frame  absolute left-0 mt-1 ${
+      !task.completed ? `w-20` : `w-10`
+    }   bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-700 rounded shadow-md hidden flex justify-center items-center p-1 gap-3`;
 
     menuFrame.innerHTML = `
     ${
@@ -120,7 +208,7 @@ function renderTasks() {
         : ""
     }
       <button class="delete-btn flex items-center justify-center p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">
-        <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-5 h-5"/>
+        <img src="./src/assets/images/tabler_trash-x.png" alt="delete" class="w-6 h-6"/>
       </button>
     `;
     menubtn.addEventListener("click", () =>
@@ -129,8 +217,6 @@ function renderTasks() {
     menucontainer.appendChild(menubtn);
     menucontainer.appendChild(menuFrame);
     taskFrame.appendChild(menucontainer);
-
-    //start code maryam
     // delete task
     const deletetask = menuFrame.querySelector(".delete-btn");
     deletetask.addEventListener("click", () => {
@@ -247,7 +333,6 @@ function renderTasks() {
         });
       });
     }
-    // end code maryam
 
     // first line : checkbox + priority + name
     const line1 = document.createElement("div");
@@ -280,6 +365,7 @@ function renderTasks() {
         ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-white dark:bg-[#302F2D]"
         : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-white");
 
+
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
       return (
@@ -287,6 +373,7 @@ function renderTasks() {
         priorityOrder.indexOf(b.priority.trim())
       );
     });
+
 
     line1.appendChild(checkbox);
     line1.appendChild(nameSpan);
@@ -299,7 +386,9 @@ function renderTasks() {
       "text-gray-700 dark:text-slate-300 text-gray-400 dark:text-[#848890]";
 
     taskFrame.appendChild(line1);
+
     taskFrame.appendChild(line2);
+
     // show description only when task is NOT completed
     if (!task.completed) {
       taskFrame.appendChild(line2);
@@ -316,6 +405,15 @@ function renderTasks() {
       completedCount > 0
         ? `${completedCount} تسک انجام شده`
         : "فعلاً هیچ تسکی انجام نشده";
+  }
+
+  // تعداد تسک های در حال انجام مریم
+  const progresstaskCount = tasks.filter((t) => !t.completed).length;
+  if (tastcount) {
+    tastcount.textContent =
+      progresstaskCount > 0
+        ? `${progresstaskCount} تسک را باید انجام دهید.`
+        : "تسکی برای امروز نداری";
   }
 }
 
@@ -349,6 +447,10 @@ addTaskBtn.addEventListener("click", () => {
     b.classList.remove("ring-2", "ring-blue-500", "hidden");
 
     b.style.removeProperty("display");
+
+    // حذف ضربدر الویت تسک
+    const eCrossBtn = b.querySelector(".priority-cross-btn");
+    if (eCrossBtn) eCrossBtn.remove();
   });
 
   prioritybuttonframe.classList.add("hidden");
@@ -358,26 +460,3 @@ addTaskBtn.addEventListener("click", () => {
 // initial render
 renderTasks();
 
-//darkmode
-// مقدار اولیه رادیوها
-(function initThemeRadios() {
-  const saved = localStorage.getItem("theme") || "system";
-  const check = (val) => {
-    const selectmode = document.querySelector(
-      `input[name="theme"][value="${val}"]`
-    );
-    if (selectmode) selectmode.checked = true;
-    return !!selectmode;
-  };
-  // try exact saved value
-  if (check(saved)) return;
-  // fallback: pick based on current/theme system preference
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const htmlDark = document.documentElement.classList.contains("dark");
-  check(htmlDark || prefersDark ? "dark" : "light");
-})();
-
-// تغییرات کاربر
-themeRadios.forEach((radio) => {
-  radio.addEventListener("change", () => applyTheme(radio.value));
-});

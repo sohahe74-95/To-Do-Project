@@ -4,20 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>کوئرا لیست</title>
+    <!--Activation DarkMode Soha-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
-    <script>
-      // اعمال تم ذخیره‌شده یا تم سیستم، قبل از رندر
-      (function () {
-        const ls = localStorage.getItem("theme"); // 'light' | 'dark' | 'system' | null
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const wantDark =
-          ls === "dark" || ((!ls || ls === "system") && prefersDark);
-        if (wantDark) document.documentElement.classList.add("dark");
-      })();
-    </script>
+
     <link rel="stylesheet" href="src/style.css" />
     <style type="text/tailwindcss">
       @theme {
@@ -41,17 +38,54 @@
   <body
     class="bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] text-[var(--color-foreground-light)] dark:text-[var(--color-foreground-dark)] overflow-x-hidden"
   >
-    <!-- header -->
-    <header
+    <!-- header for zahra -->
+    <!-- <header
       class="md:hidden w-full flex justify-between items-center gap-2 px-4 py-3 bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] shadow-[0px_4px_18px_0px_#1848900F] mx-auto max-w-screen-xl h-[49px]"
     >
       <button class="md:hidden" id="hamburger-btn">
         <img src="src/assets/icons/menu.svg" alt="منو" class="w-6 h-6" />
-      </button>
-      <div
+      </button> -->
+    <!-- <div
         class="text-center pl-50 text-base font-semibold text-[#000000] dark:text-[var(--color-foreground-dark)]"
+        id="Quera-List"
       >
         کوئرا لیست
+      </div> -->
+
+    <!-- </header> -->
+    <!-- header of Soha -->
+    <header
+      class="md:hidden w-full flex items-center px-4 py-3 bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] shadow mx-auto max-w-screen-xl h-[49px]"
+      id="header"
+      dir="rtl"
+    >
+      <button class="md:hidden" id="hamburger-btn" aria-label="باز کردن منو">
+        <img src="src/assets/icons/menu.svg" alt="منو" class="w-6 h-6" />
+      </button>
+
+      <div
+        id="header-content"
+        class="flex-1 flex items-center justify-center relative transition-all"
+      >
+        <!-- QueraList Text-->
+        <div
+          id="Quera-List"
+          class="text-base font-semibold text-[#000000] dark:text-[var(--color-foreground-dark)] transition-all duration-300"
+        >
+          کوئرا لیست
+        </div>
+
+        <!-- multiple Button-->
+        <button
+          id="mobile-close-btn"
+          class="opacity-0 pointer-events-none text-xl font-bold text-black dark:text-white mr-2"
+        >
+          <img
+            src="src/assets/images/close-circle.png"
+            alt="closed"
+            class="w-6 h-6"
+          />
+        </button>
       </div>
     </header>
 
@@ -78,7 +112,7 @@
       id="mobile-sidebar"
     >
       <!-- user and date-->
-      <div class="flex items-center gap-3 px-4 py-6">
+      <div class="hidden md:flex items-center gap-3 px-4 py-6">
         <img
           src="./src/assets/images/user5.png"
           alt="user"
@@ -98,9 +132,18 @@
         class="px-4 py-6 space-y-4 text-sm font-medium text-gray-700 dark:text-slate-300"
       >
         <li
-          class="flex items-center gap-3 cursor-pointer text-blue-600 dark:hover:text-blue-400 mb-5 bg-blue-100 py-2 pr-1 rounded-sm"
+          class="flex items-center gap-3 cursor-pointer text-blue-600 dark:hover:text-blue-400 mb-5 dark:bg-[#041933] dark:text-[#ffffff] bg-blue-100 py-2 pr-1 rounded-sm"
         >
-          <img src="./src/assets/icons/Vector.svg" alt="خانه" class="w-5 h-5" />
+          <img
+            src="./src/assets/icons/Vector.svg"
+            alt="خانه"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/home-2.svg"
+            alt="خانه"
+            class="w-5 h-5 hidden dark:block"
+          />
           خانه
         </li>
         <li
@@ -109,7 +152,12 @@
           <img
             src="./src/assets/icons/task-square.svg"
             alt="تسک‌ها"
-            class="w-5 h-5"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/task-square.svg"
+            alt="تسک‌ها"
+            class="w-5 h-5 hidden dark:block"
           />
           تسک‌ها
         </li>
@@ -119,7 +167,12 @@
           <img
             src="./src/assets/icons/calendar.svg"
             alt="تقویم"
-            class="w-5 h-5"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/calendar.svg"
+            alt="تقویم"
+            class="w-5 h-5 hidden dark:block"
           />
           تقویم
         </li>
@@ -129,7 +182,12 @@
           <img
             src="./src/assets/icons/arrange-square-2.svg"
             alt="گزارشات"
-            class="w-5 h-5"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/arrange-square-2.svg"
+            alt="گزارشات"
+            class="w-5 h-5 hidden dark:block"
           />
           گزارشات
         </li>
@@ -139,7 +197,12 @@
           <img
             src="./src/assets/icons/setting.svg"
             alt="تنظیمات"
-            class="w-5 h-5"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/setting.svg"
+            alt="تنظیمات"
+            class="w-5 h-5 hidden dark:block"
           />
           تنظیمات
         </li>
@@ -149,7 +212,12 @@
           <img
             src="./src/assets/icons/24-support.svg"
             alt="پشتیبانی"
-            class="w-5 h-5"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/24-support.svg"
+            alt="پشتیبانی"
+            class="w-5 h-5 hidden dark:block"
           />
           پشتیبانی
         </li>
@@ -159,7 +227,12 @@
           <img
             src="./src/assets/icons/profile.svg"
             alt="پروفایل"
-            class="w-5 h-5"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/profile.svg"
+            alt="پروفایل"
+            class="w-5 h-5 hidden dark:block"
           />
           پروفایل
         </li>
@@ -167,38 +240,12 @@
 
       <!--Light and Dark Button-->
 
-      <!-- <div class="w-45 bg-gray-400 p-8 rounded-md flex px-4 py-4 mt-0 mb-0">
+      <div
+        class="flex h-[42px] items-center justify-center mt-15 mx-4 px-1 gap-3 mb-5 bg-[#F7F7F7] dark:bg-[#0C1B31]"
+      >
         <button
-          class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-blue-500 hover:text-white border border-gray-300 dark:border-gray-600"
-        >
-          <img src="./src/assets/icons/sun.svg" alt="روشن" class="w-4 h-4" />
-          روشن
-        </button>
-        <button
-          class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-blue-500 hover:text-white border border-gray-300 dark:border-gray-600 border-l-0"
-        >
-          <img src="./src/assets/icons/moon.svg" alt="تاریک" class="w-4 h-4" />
-          تاریک
-        </button>
-      </div> -->
-      <div class="relative w-[209px] h-[42px] mt-15 mx-auto mb-5">
-        <!-- more bigger button(dark) -->
-        <button
-          class="w-full h-full bg-[#F7F7F7] rounded-md text-black text-sm flex items-center justify-start px-4 pr-29"
-        >
-          <span class="flex items-center gap-2">
-            <img
-              src="./src/assets/icons/moon.svg"
-              alt="خاموش"
-              class="h-5 w-5"
-            />
-            خاموش
-          </span>
-        </button>
-
-        <!-- right button(light) includes a half of container-->
-        <button
-          class="absolute top-[3px] bottom-[3px] right-0.5 w-1/2 bg-white text-black text-sm rounded-md shadow flex items-center justify-center gap-2"
+          id="light-btn"
+          class="bg-white w-full h-[85%] dark:bg-[#0C1B31] dark:text-[#7A7A7A] text-[#525252] text-sm rounded-md shadow flex gap-2 items-center justify-center"
         >
           <img
             src="./src/assets/icons/sun.svg"
@@ -207,12 +254,28 @@
           />
           روشن
         </button>
+        <button
+          id="dark-btn"
+          class="w-full h-[85%] rounded-md dark:bg-[#002247] dark:text-[#ffffff] text-[#808080] text-sm flex items-center gap-2 justify-center"
+        >
+          <img src="./src/assets/icons/moon.svg" alt="خاموش" class="h-5 w-5" />
+          تاریک
+        </button>
       </div>
 
       <!-- Exit Button-->
       <div class="mt-auto px-4 py-4 border-t border-gray-200 mx-4">
-        <button class="flex items-center gap-3 text-black mt-5">
-          <img src="./src/assets/icons/logout.svg" class="w-5 h-5" />
+        <button
+          class="flex items-center gap-3 text-black mt-5 dark:text-[#f7f7f7]"
+        >
+          <img
+            src="./src/assets/icons/logout.svg"
+            class="w-5 h-5 dark:hidden"
+          />
+          <img
+            src="./src/assets/icons/dark/logout.svg"
+            class="w-5 h-5 hidden dark:block"
+          />
           خروج
         </button>
       </div>
@@ -274,16 +337,23 @@
       <hr class="text-[#F5F6F8] md:hidden" />
       <!-- task -->
 
-      <div class="md:mr-45 m-3">
+      <div class="mt-5 pr-5 pl-6 md:pr-36 md:pl-38">
         <h2
           class="text-[15px] md:text-[25px] font-bold text-slate-800 dark:text-slate-100"
         >
           تسک های امروز
         </h2>
+        <!-- نمایش تعداد تسک مریم -->
         <!--- show the count of tasks must be done--->
-        <p id="no-tasks-msg" class="text-slate-600 dark:text-slate-300">
+        <!-- <p id="no-tasks-msg" class="text-slate-600 dark:text-slate-300">
           تسکی برای امروز نداری
-        </p>
+        </p> -->
+
+        <p
+          id="tast-count"
+          class="text-sm text-slate-600 dark:text-slate-300 mt-1"
+        ></p>
+        <div id="todo-tasks"></div>
       </div>
       <!-- addnewtask-->
       <!-- px-6 md:px-36 -->
@@ -297,29 +367,29 @@
 
       <section id="task-form" class="hidden">
         <div
-          class="flex flex-col gap-2 md:mx-36 mx-4 my-10 md:p-10 p-4 space-y-1 rounded-[16px] border border-[#E9E9E9] dark:border-slate-700 shadow-[0px_4px_63px_0px_#00000008] bg-white dark:bg-slate-900"
+          class="flex flex-col gap-2 md:mx-36 mx-4 my-10 md:p-10 p-4 space-y-1 rounded-[16px] border border-[#E9E9E9] dark:border-[#3D3D3D] shadow-[0px_4px_63px_0px_#00000008] bg-white dark:bg-transparent"
         >
           <input
             type="text"
             placeholder="نام تسک"
-            class="rounded p-2 w-full text-[#7D7D7F] dark:text-slate-300 text-[16px] font-bold focus:outline-none bg-white dark:bg-slate-800"
+            class="rounded p-2 w-full text-[#7D7D7F] dark:text-[#ffffff] text-[16px] font-bold focus:outline-none bg-white dark:bg-transparent"
             id="task-name"
           />
           <textarea
             placeholder="توضیحات"
-            class="rounded p-2 w-full text-[#AFAEB2] dark:text-slate-400 text-[14px] focus:outline-none bg-white dark:bg-slate-800 resize-none"
+            class="rounded p-2 w-full text-[#AFAEB2] dark:text-[#83878F] text-[14px] focus:outline-none bg-white dark:bg-transparent resize-none"
             id="task-desc"
           ></textarea>
           <a
             href="#"
-            class="flex flex-row gap-2 border border-[#E9E9E9] dark:border-slate-700 rounded-[4px] p-2 w-fit bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300"
+            class="flex flex-row gap-2 border border-[#E9E9E9] dark:border-[#3D3D3D] rounded-[4px] p-2 w-fit bg-white dark:bg-transparent text-slate-600 dark:text-[#ffffff]"
             id="tag-button"
           >
             <img src="./src/assets/icons/tag-down.svg" />
             تگ ها
           </a>
           <div
-            class="flex flex-row gap-8 items-center justify-start border border-[#e9e9e9] dark:border-slate-700 rounded-[16px] w-fit hidden"
+            class="flex flex-row gap-8 items-center justify-start border border-[#e9e9e9] bg-transparent dark:border-[#293242] dark:bg-[#0B192D] rounded-[16px] w-fit hidden"
             id="priority-button-frame"
           >
             <p
@@ -344,14 +414,14 @@
           <div class="flex-1 h-px bg-[#e9e9e9] dark:bg-slate-700"></div>
 
           <div class="flex flex-row items-center gap-2 justify-end">
-            <a class="md:hidden"
+            <a class="md:hidden" id="cancel-butten"
               ><img
-                src="./Frame.svg"
-                class="border border-[#F5F5F5] dark:border-slate-600 bg-[#F5F5F5] dark:bg-slate-700 rounded-[4px] p-3"
+                src="./src/assets/images/Frame 1000005428.png"
+                class="border border-[#F5F5F5] dark:border-slate-600 bg-[#F5F5F5] dark:bg-slate-700 rounded-[6px] p-2"
                 alt=""
             /></a>
             <button
-              class="bg-[#007BFF] dark:bg-[var(--color-primary-dark)] hover:bg-blue-600 dark:hover:bg-[var(--color-primary-hover-dark)] rounded-[6px] px-8 py-3 text-white dark:text-[var(--color-on-primary-dark)]"
+              class="bg-[#007BFF] dark:bg-[#002247] hover:bg-blue-600 dark:hover:bg-[var(--color-primary-hover-dark)] rounded-[6px] px-8 py-3 text-white dark:text-[var(--color-on-primary-dark)]"
               id="add-task-btn"
             >
               اضافه کردن تسک
