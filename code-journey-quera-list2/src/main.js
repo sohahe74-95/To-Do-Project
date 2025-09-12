@@ -365,7 +365,6 @@ function renderTasks() {
         ? "bg-[#FFEFD6] text-[#FFAF37] dark:text-white dark:bg-[#302F2D]"
         : "bg-[#FFE2DB] text-[#FF5F37] dark:bg-[#3D2327] dark:text-white");
 
-
     const priorityOrder = ["بالا", "متوسط", "پایین"];
     tasks.sort((a, b) => {
       return (
@@ -373,7 +372,6 @@ function renderTasks() {
         priorityOrder.indexOf(b.priority.trim())
       );
     });
-
 
     line1.appendChild(checkbox);
     line1.appendChild(nameSpan);
@@ -457,6 +455,36 @@ addTaskBtn.addEventListener("click", () => {
   tagbutton.classList.remove("hidden");
 });
 
+// time section
+document.addEventListener("DOMContentLoaded", function () {
+  const updatePersianDate = (id, includeToday = false) => {
+    const dateElement = document.getElementById(id);
+    if (!dateElement) return;
+
+    const now = new Date();
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const persianDate = new Intl.DateTimeFormat("fa-IR", options).format(now);
+
+    const weekDays = [
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه",
+    ];
+    const dayIndex = now.getDay();
+    const persianWeekDay = weekDays[(dayIndex + 1) % 7];
+
+    dateElement.textContent = includeToday
+      ? `امروز، ${persianWeekDay}، ${persianDate}`
+      : `${persianWeekDay}، ${persianDate}`;
+  };
+
+  updatePersianDate("sidebar-date2", true);
+  updatePersianDate("sidebar-date");
+});
+
 // initial render
 renderTasks();
-
