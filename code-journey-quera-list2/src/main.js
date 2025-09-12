@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   lightBtn.addEventListener("click", () => {
     document.documentElement.classList.remove("dark");
     lightBtn.classList.remove("shadow");
-    darkBtn.classList.add("shadow");
+    
   });
 });
 
