@@ -4,20 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>کوئرا لیست</title>
+    <!-- 2) کانفیگ Tailwind v4: اینجا بنویس، نه با tailwind.config -->
+    <script type="tailwind-config">
+      export default {
+        darkMode: "class",
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
-    <script>
-      // اعمال تم ذخیره‌شده یا تم سیستم، قبل از رندر
-      (function () {
-        const ls = localStorage.getItem("theme"); // 'light' | 'dark' | 'system' | null
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const wantDark =
-          ls === "dark" || ((!ls || ls === "system") && prefersDark);
-        if (wantDark) document.documentElement.classList.add("dark");
-      })();
-    </script>
+
     <link rel="stylesheet" href="src/style.css" />
     <style type="text/tailwindcss">
       @theme {
@@ -67,8 +62,10 @@
       </button>
 
       <div
+
         id="header-content"
         class="flex-1 flex items-center justify-center relative transition-all"
+
       >
         <!-- QueraList Text-->
         <div
@@ -135,13 +132,21 @@
         class="px-4 py-6 space-y-4 text-sm font-medium text-gray-700 dark:text-slate-300"
       >
         <li
+
           class="flex items-center gap-3 cursor-pointer text-blue-600 dark:hover:text-blue-400 mb-5 bg-blue-100 py-2 pr-1 rounded-sm"
+
         >
-          <img src="./src/assets/icons/Vector.svg" alt="خانه" class="w-5 h-5" />
+          <img
+            src="./src/assets/icons/Vector.svg"
+            alt="خانه"
+            class="w-5 h-5 dark:hidden"
+          />
           خانه
         </li>
         <li
+
           class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 mb-5 pr-1"
+
         >
           <img
             src="./src/assets/icons/task-square.svg"
@@ -151,7 +156,9 @@
           تسک‌ها
         </li>
         <li
+
           class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 mb-5 pr-1"
+
         >
           <img
             src="./src/assets/icons/calendar.svg"
@@ -161,7 +168,9 @@
           تقویم
         </li>
         <li
+
           class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 mb-5 pr-1"
+
         >
           <img
             src="./src/assets/icons/arrange-square-2.svg"
@@ -171,7 +180,9 @@
           گزارشات
         </li>
         <li
+
           class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 mb-5 pr-1"
+
         >
           <img
             src="./src/assets/icons/setting.svg"
@@ -181,7 +192,9 @@
           تنظیمات
         </li>
         <li
+
           class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 mb-5 pr-1"
+
         >
           <img
             src="./src/assets/icons/24-support.svg"
@@ -191,7 +204,9 @@
           پشتیبانی
         </li>
         <li
+
           class="flex items-center gap-3 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 mb-5 pr-1"
+
         >
           <img
             src="./src/assets/icons/profile.svg"
@@ -218,9 +233,12 @@
           تاریک
         </button>
       </div> -->
+
+
       <div class="relative w-[209px] h-[42px] mt-15 mx-auto mb-5">
-        <!-- more bigger button(dark) -->
         <button
+          id="dark-btn"
+
           class="w-full h-full bg-[#F7F7F7] rounded-md text-black text-sm flex items-center justify-start px-4 pr-29"
         >
           <span class="flex items-center gap-2">
@@ -233,8 +251,10 @@
           </span>
         </button>
 
-        <!-- right button(light) includes a half of container-->
+
         <button
+          id="light-btn"
+
           class="absolute top-[3px] bottom-[3px] right-0.5 w-1/2 bg-white text-black text-sm rounded-md shadow flex items-center justify-center gap-2"
         >
           <img
@@ -248,7 +268,9 @@
 
       <!-- Exit Button-->
       <div class="mt-auto px-4 py-4 border-t border-gray-200 mx-4">
+
         <button class="flex items-center gap-3 text-black mt-5">
+
           <img src="./src/assets/icons/logout.svg" class="w-5 h-5" />
           خروج
         </button>
