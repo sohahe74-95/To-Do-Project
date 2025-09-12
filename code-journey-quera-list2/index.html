@@ -41,17 +41,54 @@
   <body
     class="bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] text-[var(--color-foreground-light)] dark:text-[var(--color-foreground-dark)] overflow-x-hidden"
   >
-    <!-- header -->
-    <header
+    <!-- header for zahra -->
+    <!-- <header
       class="md:hidden w-full flex justify-between items-center gap-2 px-4 py-3 bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] shadow-[0px_4px_18px_0px_#1848900F] mx-auto max-w-screen-xl h-[49px]"
     >
       <button class="md:hidden" id="hamburger-btn">
         <img src="src/assets/icons/menu.svg" alt="منو" class="w-6 h-6" />
-      </button>
-      <div
+      </button> -->
+    <!-- <div
         class="text-center pl-50 text-base font-semibold text-[#000000] dark:text-[var(--color-foreground-dark)]"
+        id="Quera-List"
       >
         کوئرا لیست
+      </div> -->
+
+    <!-- </header> -->
+    <!-- header of Soha -->
+    <header
+      class="md:hidden w-full flex items-center px-4 py-3 bg-[var(--color-background-light)] dark:bg-[var(--color-background-dark)] shadow mx-auto max-w-screen-xl h-[49px]"
+      id="header"
+      dir="rtl"
+    >
+      <button class="md:hidden" id="hamburger-btn" aria-label="باز کردن منو">
+        <img src="src/assets/icons/menu.svg" alt="منو" class="w-6 h-6" />
+      </button>
+
+      <div
+        id="header-content"
+        class="flex-1 flex items-center justify-center relative transition-all"
+      >
+        <!-- QueraList Text-->
+        <div
+          id="Quera-List"
+          class="text-base font-semibold text-[#000000] dark:text-[var(--color-foreground-dark)] transition-all duration-300"
+        >
+          کوئرا لیست
+        </div>
+
+        <!-- multiple Button-->
+        <button
+          id="mobile-close-btn"
+          class="opacity-0 pointer-events-none text-xl font-bold text-black dark:text-white mr-2"
+        >
+          <img
+            src="src/assets/images/close-circle.png"
+            alt="closed"
+            class="w-6 h-6"
+          />
+        </button>
       </div>
     </header>
 
@@ -78,7 +115,7 @@
       id="mobile-sidebar"
     >
       <!-- user and date-->
-      <div class="flex items-center gap-3 px-4 py-6">
+      <div class="hidden md:flex items-center gap-3 px-4 py-6">
         <img
           src="./src/assets/images/user5.png"
           alt="user"
