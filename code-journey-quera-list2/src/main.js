@@ -1,5 +1,5 @@
 const taskimgback = document.getElementById("task-back-img");
-
+//hide and show background soha
 document.addEventListener("DOMContentLoaded", () => {
   const addTaskButton = document.querySelector(".add-task-button");
   const taskform = document.getElementById("task-form");
@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
 //     }
 //   });
 // });
+
+//MenuBar Soha
 document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const closeBtn = document.getElementById("mobile-close-btn");
@@ -127,7 +129,7 @@ tagbutton.addEventListener("click", () => {
   prioritybuttonframe.classList.toggle("hidden");
 });
 let selectedPriority = "";
-// cancel-butten m
+// cancel-butten maryam
 const taskform = document.getElementById("task-form");
 const cancelbutten = document.getElementById("cancel-butten");
 cancelbutten.addEventListener("click", () => {
@@ -208,7 +210,7 @@ priorityButtons.forEach((btn) => {
   });
 });
 
-// load tasks on localStorage
+// load tasks on localStorage soha
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 function saveTasks() {
@@ -231,7 +233,7 @@ function renderTasks() {
     }
   }
 
-  // maryam
+  // soha for ordering task
   const priorityOrder = ["بالا", "متوسط", "پایین"];
   tasks.sort((a, b) => {
     return (
@@ -239,7 +241,7 @@ function renderTasks() {
       priorityOrder.indexOf(b.priority.trim())
     );
   });
-  // maryam
+  // created task soha
   tasks.forEach((task, index) => {
     let borderColorClass = "";
     if (task.priority.trim() === "پایین") {
@@ -254,13 +256,13 @@ function renderTasks() {
      rounded-lg p-4 shadow flex flex-col gap-2 relative mt-3
      bg-white dark:bg-slate-900`;
 
-    // menu threepoints on the left
+    // menu threepoints on the left soha
     const menucontainer = document.createElement("div");
     menucontainer.className = "absolute top-2 left-2 p-1";
     const menubtn = document.createElement("button");
     menubtn.className = "task-menu-btns mt-1";
     menubtn.innerHTML = `<img src="./src/assets/images/Frame 1000005552.svg" alt="menu" class="w-5 h-5"/>`;
-    // butten edit and delet
+    // butten edit and delet soha
     const menuFrame = document.createElement("div");
     menuFrame.className = `task-menu-frame  absolute left-0 mt-1 ${
       !task.completed ? `w-20` : `w-10`
@@ -285,7 +287,7 @@ function renderTasks() {
     menucontainer.appendChild(menubtn);
     menucontainer.appendChild(menuFrame);
     taskFrame.appendChild(menucontainer);
-    // delete task
+    // delete task maryam
     const deletetask = menuFrame.querySelector(".delete-btn");
     deletetask.addEventListener("click", () => {
       tasks.splice(index, 1);
@@ -293,7 +295,7 @@ function renderTasks() {
       renderTasks();
     });
 
-    // edit task
+    // edit task maryam
     const editBtn = menuFrame.querySelector(".edit-btn");
     if (editBtn) {
       editBtn.addEventListener("click", () => {
@@ -402,7 +404,7 @@ function renderTasks() {
       });
     }
 
-    // first line : checkbox + priority + name
+    // first line : checkbox + priority + name soha
     const line1 = document.createElement("div");
     line1.className = "flex items-center gap-2";
 
@@ -416,7 +418,7 @@ function renderTasks() {
       saveTasks();
       renderTasks(); //  دوباره رندر بشه تا استایل آپدیت بشه
     });
-
+    //zahra for Done tasks
     const nameSpan = document.createElement("span");
     nameSpan.textContent = task.name;
     nameSpan.className =
@@ -483,7 +485,7 @@ function renderTasks() {
   }
 }
 
-// add new tasks
+// add new tasks soha
 addTaskBtn.addEventListener("click", () => {
   const name = taskNameInput.value.trim();
   const desc = taskDescInput.value.trim();
@@ -523,7 +525,7 @@ addTaskBtn.addEventListener("click", () => {
   tagbutton.classList.remove("hidden");
 });
 
-// time section
+// time section saman
 document.addEventListener("DOMContentLoaded", function () {
   const updatePersianDate = (id, includeToday = false) => {
     const dateElement = document.getElementById(id);
